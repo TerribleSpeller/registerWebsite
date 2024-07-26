@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<!--
+    OVERALL TODO:
+    - Do the Google Maps thing
+    - Fix Postioning of things (Mainly the Submenus in the NavBar when mobile)
+-->
+<header>
+    <title>Mockup</title>
+    <!-- TODO: CHANGE WITH ACTUAL SINARMAS CSS -->
+    <!--General Bootsrap to Ease Work-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!--Social Media Buttons CSS -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/gh/vaakash/socializer@master/css/socializer.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.2/css/all.css">
+    <!--Local Files -->
+    <link rel="stylesheet" href="./css/register.css">
+
+    <!--Yoinked-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no">
+
+</header>
+
+<body>
+    <div id="Header">
+        <div class="navbar-wrapper ">
+            <div class="navbar-local navbar navbar-expand-lg light is-scrolled">
+                <div class="container position-relative" style="flex-wrap:nowrap">
+                    <a class="navbar-brand" href="/">
+                        <img src="https://hierabsd.id/wp-content/uploads/2022/11/hiera-bsd-logo-rec.png"
+                            class="img-fluid dark" alt="Logo" width="auto">
+                        <!--<img src="img/LightVersion.png" class="img-fluid light" alt="Logo" width="auto">-->
+                    </a>
+                    <div class="navbar-toggler">
+                        <button aria-label="toggler-menu" onclick="openNav()" class="">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                    </div>
+                    <div class="navbar-menu light d-lg-block">
+                        <div class="navbar-menu-bg"></div>
+                        <div class="navbar-menu-content">
+                            <div class="navbar-collapse">
+                                <ul class="navbar-nav ml-auto">
+                                    <li class="nav-item false">
+                                        <div>
+                                            <a class="nav-link" href="https://hiera.co.id/">Live at Hiera</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item false">
+                                        <div>
+                                            <button class="nav-link " aria-label="BSDButton"
+                                                onclick="openBSDCity()">About Us</button>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item false">
+                                        <div>
+                                            <button class="nav-link " aria-label="DevButton"
+                                                onclick="openDev()">Projects</button>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item false">
+                                        <div>
+                                            <a class="nav-link" href="https://hiera.co.id/news/">News & Events</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item false">
+                                        <div>
+                                            <a class="nav-link" href="https://hiera.co.id/sales-team/">Sales Team</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item false">
+                                        <div>
+                                            <a class="nav-link" href="https://hiera.co.id/3d-virtual/">3D Virtual</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item false">
+                                        <div>
+                                            <a class="nav-link" href="https://hiera.co.id/contact-us/">3D Virtual</a>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-none d-lg-block">
+                        <div class="navbar-submenu light" id="about" style="display: none;  width: 20%; height: 10%; ">
+                            <div class="navbar-submenu-content" style="">
+                                <div class="navbar-submenu-collapse">
+                                    <div class="navbar-submenu-collapse-content">
+                                        <div class="container">
+                                            <div class="row w-100">
+                                                <div class="col-md-4">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item"><a class="nav-link" href="/about/">About
+                                                                BSD City</a></li>
+                                                        <li class="nav-item"><a class="nav-link"
+                                                                href="/our-partners/">Our Partners</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="black-layer-navbar-menu"></div>
+                        </div>
+                    </div>
+                    <div class="d-none d-lg-block">
+                        <div class="navbar-submenu light" id="devs" style="display: none;">
+                            <div class="navbar-submenu-bg" id="devs-bg" style="opacity: 0;"></div>
+                            <div class="navbar-submenu-content"
+                                style="opacity: 1; transform-origin: 524px 133.219px; transform: translate(0px, 0px);">
+                                <div class="navbar-submenu-collapse">
+                                    <div class="navbar-submenu-collapse-content">
+                                        <div class="container">
+                                            <div class="row w-100">
+                                                <div class="col-md-4">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item"><a class="nav-link" href="/about/">About
+                                                                BSD City</a></li>
+                                                        <li class="nav-item"><a class="nav-link"
+                                                                href="/our-partners/">Our Partners</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-none d-lg-block">
+                        <div class="navbar-submenu light" id="service" style="display: none;">
+                            <div class="navbar-submenu-bg" id="service-bg" style="opacity: 0;"></div>
+                            <div class="navbar-submenu-content" style="">
+                                <div class="navbar-submenu-collapse">
+                                    <div class="navbar-submenu-collapse-content">
+                                        <div class="container">
+                                            <h2>Services</h2>
+                                            <div class="row w-100">
+                                                <div class="col-md-4">
+                                                    <ul class="navbar-nav mb-4">
+                                                        <li class="nav-item"><a class="nav-link"
+                                                                href="/water-ipl-payment/">Water &amp; IPL Payment</a>
+                                                        </li>
+                                                        <li class="nav-item"><a class="nav-link"
+                                                                href="/marketing-gallery/">Marketing Gallery</a></li>
+                                                    </ul><a class="btn btn-secondary btn-block"
+                                                        href="/contact-us/">Contact Us<!-- --> <i
+                                                            class="fas fa-arrow-right ml-1"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navbar-menu light d-lg-none" id="dropdownnavmenu" style="/*display: none;*/">
+                        <div class="black-layer"></div>
+                        <div class="white-layer">
+                            <div class="navbar-menu-content" id="whitesecond"
+                                style="transform-origin: 487px 481px; transform: translate(0px, 0px); height: 100%; width: 100%;">
+                                <div class="navbar-collapse">
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <div><a class="nav-link" href="/">Home</a></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div><button class="nav-link" aria-label="About-submenu">About BSD
+                                                    City</button></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div><button class="nav-link "
+                                                    aria-label="Devs-submenu">Developments</button></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div><a class="nav-link" href="/facilities/">Facilities</a></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div><a class="nav-link" href="/news-events/">News &amp; Events</a></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div><a class="nav-link" href="/access/">Access</a></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div><button class="nav-link "
+                                                    aria-label="Service-submenu">Services</button></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div style="transform: translate(0px, 0px);"></div>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div style="transform: translate(0px, 0px);"></div>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div style="transform: translate(0px, 0px);"></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div style="transform: translate(0px, 0px);"></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div style="transform: translate(0px, 0px);"></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div style="transform: translate(0px, 0px);"></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div style="transform: translate(0px, 0px);"></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div><a href="https://digitalhub-bsdcity.com/" class="nav-link"
+                                                    target="_blank">Digital Hub</a></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div style="transform: translate(0px, 0px);"><a
+                                                    href="https://ecatalog.sinarmasland.com?utm_source=Website&amp;utm_medium=BSDWebsite&amp;utm_campaign=Digital_e-Catalog_2021&amp;utm_content=ECatalog_BSD_City_Website_Menu"
+                                                    class="nav-link" target="_blank">E-Catalog</a></div>
+                                        </li>
+                                    </ul>
+                                    <div class="social-links-wrapper">
+                                        <div style="transform: translate(0px, 0px);">
+                                            <ul class="social-links ">
+                                                <li class="social-item"><a aria-label="fa-facebook-square social media"
+                                                        href="https://www.facebook.com/bsdcity01" target="_blank"
+                                                        rel="noopener noreferrer" class="social-link"><i
+                                                            class="fab fa-facebook-square"></i></a></li>
+                                                <li class="social-item"><a aria-label="tiktok social media"
+                                                        href="https://twitter.com/bsdcity_?lang=en" target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        class="social-link footer-twitter-icon"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" height="1em"
+                                                            viewBox="0 0 512 512">
+                                                            <path
+                                                                d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z">
+                                                            </path>
+                                                        </svg></a></li>
+                                                <li class="social-item"><a aria-label="fa-instagram social media"
+                                                        href="https://www.instagram.com/bsdcity_official/?hl=en"
+                                                        target="_blank" rel="noopener noreferrer" class="social-link"><i
+                                                            class="fab fa-instagram"></i></a></li>
+                                                <li class="social-item"><a aria-label="fa-youtube social media"
+                                                        href="https://www.youtube.com/@bsdcity_official" target="_blank"
+                                                        rel="noopener noreferrer" class="social-link"><i
+                                                            class="fab fa-youtube"></i></a></li>
+                                                <li class="social-item"><a aria-label="tiktok social media"
+                                                        href="https://www.tiktok.com/@bsdcity_official?lang=en"
+                                                        target="_blank" rel="noopener noreferrer"
+                                                        class="social-link footer-tiktok-icon"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                                            <path
+                                                                d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z">
+                                                            </path>
+                                                        </svg></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="toggle-dual-languages">
+                                            <div class="toggle-item active">
+                                                <p>ENG</p>
+                                            </div>
+                                            <div class="toggle-item false">
+                                                <p>IND</p>
+                                            </div>
+                                        </div>
+                                    </div><a class="btn btn-secondary btn-block btn-mobile-login text-capitalize"
+                                        href="/login">Login</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="light d-lg-none" id="navbar-submenu-aboutus">
+                        <div class="navbar-submenu-submenu-hiera light" id="aboutus-submenu" style="display: none">
+                            <div class="navbar-submenu-content-submenu" style="">
+                                <div class="navbar-submenu-collapse-submenu">
+                                    <div class="navbar-submenu-collapse-header-submenu">
+                                        <div class="container">
+                                            <button class="btn btn-link"
+                                                aria-label="aboutus-submenu-button">Back</button>
+                                        </div>
+                                    </div>
+                                    <ul class="about-submenu">
+                                        <li class="about-submenu-item"><a href="/investor/">General
+                                                Information</a>
+                                        </li>
+                                        <li class="about-submenu-item"><a
+                                                href="/investor/board-of-directors-and-board-commissioners/">Board
+                                                of Commissioners and Directors</a></li>
+                                        <li class="about-submenu-item"><a href="/investor/annual-reports/">Annual
+                                                Reports</a></li>
+                                        <li class="about-submenu-item"><a href="/investor/financial-reports/">Financial
+                                                Reports</a></li>
+                                        <li class="about-submenu-item"><a
+                                                href="/investor/corporate-governance/">Corporate Governance</a>
+                                        </li>
+                                        <li class="about-submenu-item"><a href="/investor/press-release/">Press
+                                                Release</a></li>
+                                        <li class="about-submenu-item"><a
+                                                href="/investor/information-disclosure/">Information
+                                                Disclosure</a>
+                                        </li>
+                                        <li class="about-submenu-item"><a
+                                                href="/investor/investors-relations/">Investors Relations</a>
+                                        </li>
+                                        <li class="about-submenu-item"><a
+                                                href="/investor/organization-structure/">Organization
+                                                Structure</a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="light d-lg-none" id="navbar-submenu-devs">
+                        <div class="navbar-submenu-submenu-hiera light" id="devs-submenu" style="display: none;">
+                            <div class="navbar-submenu-bg-submenu" id="devs-bg-submenu" style="opacity: 0;"></div>
+                            <div class="navbar-submenu-content-submenu"
+                                style="transform-origin: 450px 481px; transform: translate(0px, 0px); height: 30%; width: 30%;">
+                                <div class="navbar-submenu-collapse-submenu">
+                                    <div class="navbar-submenu-collapse-header-submenu">
+                                        <div class="container">
+                                            <button class="btn btn-link" aria-label="dev-submenu-button">Back</button>
+                                        </div>
+                                    </div>
+                                    <div class="navbar-submenu-collapse-content d-block">
+                                        <div class="container" style="flex-direction: column; align-items:start">
+                                            <div class="overflow-hidden">
+                                                <h2>Development</h2>
+                                            </div>
+                                            <div class="overflow-hidden">
+                                                <p>Discover BSD City current &amp; future developments</p>
+                                            </div>
+                                            <ul class="navbar-nav mb-3">
+                                                <li class="nav-item">
+                                                    <div><a class="nav-link" href="/development/residential/"
+                                                            style="font-size: .9rem">Residential</a></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <div><a class="nav-link" href="/development/office/"
+                                                            style="font-size: .9rem">Office</a></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <div><a class="nav-link" href="/development/commercial/"
+                                                            style="font-size: .9rem">Commercial</a>
+                                                    </div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <div><a class="nav-link" href="/development/industrial/"
+                                                            style="font-size: .9rem">Industrial</a>
+                                                    </div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <div><a class="nav-link" href="/development/future-developments/"
+                                                            style="font-size: .9rem">Future
+                                                            Development</a></div>
+                                                </li>
+                                            </ul>
+                                            <div class="submenu-card-list"><a
+                                                    class="card card-overlay card-property submenu-property mb-3" id=""
+                                                    href="/development/commercial/virginia-arcade-promenade/">
+                                                    <div class="row row-0">
+                                                        <div class="col-bg col-12">
+                                                            <div class="card-bg ">
+                                                                <div class="card-bg-img h-ratio-2-1"
+                                                                    style="background:url(https://www.bsdcity.com/app/uploads/2024/05/frontyard65017bc717c6b-umDjrt9w9vwoophFNJFCATBntMiAn9R6IihZsHUT.jpg) center center / cover no-repeat">
+                                                                    <div class="bg-overlay bg-overlay-bottom"></div>
+                                                                    <!-- <img
+                                                                        class="img-ratio img-ratio-1-1"
+                                                                        src="img/1x1.png"
+                                                                        alt="Ratio Placeholder" width="100"
+                                                                        height="100"> -->
+                                                                    <img class="img-ratio img-ratio-2-1"
+                                                                        src="img/100x30.png" alt="Ratio Placeholder"
+                                                                        width="100%" height="100">
+                                                                    <!-- <img class="img-ratio img-ratio-3-2"
+                                                                        src="img/100x60.png"
+                                                                        alt="Ratio Placeholder" width="100" height="100"> -->
+                                                                </div>
+                                                                <div class="el-after"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-body col-12">
+                                                            <div class="card-body ">
+                                                                <div class="d-flex align-items-center">
+                                                                    <h3 class="card-title h5">Virginia Arcade Promenade
+                                                                    </h3>
+                                                                </div>
+                                                                <div class="detail-category"
+                                                                    style="display:inline-flex"><i class="fas fa-city"
+                                                                        style="color:#e3e3e3;line-height:1.5">&nbsp;</i>
+                                                                    <div class="card-text   ">
+                                                                        <p>Commercial</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a><a class="card card-overlay card-property submenu-property mb-3"
+                                                    id=""
+                                                    href="/development/commercial/northridge-business-center-ultimate/">
+                                                    <div class="row row-0">
+                                                        <div class="col-bg col-12">
+                                                            <div class="card-bg ">
+                                                                <div class="card-bg-img h-ratio-2-1"
+                                                                    style="background:url(https://www.bsdcity.com/app/uploads/2024/05/06.-Northridge-3-Suasana-Ruko-Kecil-Frontal-scaled.jpg) center center / cover no-repeat">
+                                                                    <div class="bg-overlay bg-overlay-bottom"></div>
+                                                                    <!-- <img
+                                                                        class="img-ratio img-ratio-1-1"
+                                                                        src="img/1x1.png"
+                                                                        alt="Ratio Placeholder" width="100"
+                                                                        height="100"> -->
+                                                                    <img class="img-ratio img-ratio-2-1"
+                                                                        src="img/100x30.png" alt="Ratio Placeholder"
+                                                                        width="100" height="100">
+                                                                    <!-- <img class="img-ratio img-ratio-3-2"
+                                                                        src="img/100x60.png"
+                                                                        alt="Ratio Placeholder" width="100" height="100"> -->
+                                                                </div>
+                                                                <div class="el-after"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-body col-12">
+                                                            <div class="card-body ">
+                                                                <div class="d-flex align-items-center">
+                                                                    <h3 class="card-title h5">Northridge Business Center
+                                                                        Ultimate</h3>
+                                                                </div>
+                                                                <div class="detail-category"
+                                                                    style="display:inline-flex"><i class="fas fa-city"
+                                                                        style="color:#e3e3e3;line-height:1.5">&nbsp;</i>
+                                                                    <div class="card-text   ">
+                                                                        <p>Commercial</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a><a class="card card-overlay card-property submenu-property mb-3"
+                                                    id="" href="/development/residential/tresor/">
+                                                    <div class="row row-0">
+                                                        <div class="col-bg col-12">
+                                                            <div class="card-bg ">
+                                                                <div class="card-bg-img h-ratio-2-1"
+                                                                    style="background:url(https://www.bsdcity.com/app/uploads/2024/03/TRESOR_eBrochure-4.jpg) center center / cover no-repeat">
+                                                                    <div class="bg-overlay bg-overlay-bottom"></div>
+                                                                    <!-- <img class="img-ratio img-ratio-2-1"
+                                                                    src="img/100x30.png"
+                                                                    alt="Ratio Placeholder" width="100"
+                                                                    height="100"> -->
+                                                                    <img class="img-ratio img-ratio-2-1"
+                                                                        src="img/100x60.png" alt="Ratio Placeholder"
+                                                                        width="100" height="100">
+                                                                </div>
+                                                                <div class="el-after"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-body col-12">
+                                                            <div class="card-body ">
+                                                                <div class="d-flex align-items-center">
+                                                                    <h3 class="card-title h5">Tresor</h3>
+                                                                </div>
+                                                                <div class="detail-category"
+                                                                    style="display:inline-flex"><i
+                                                                        class="fal fa-home-lg-alt"
+                                                                        style="color:#e3e3e3;line-height:1.5">&nbsp;</i>
+                                                                    <div class="card-text   ">
+                                                                        <p>Residential</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="light d-lg-none" id="navbar-submenu-service">
+                        <div class="navbar-submenu-submenu light" id="service-submenu" style="display: none;">
+                            <div class="navbar-submenu-bg-submenu" id="service-bg-submenu" style="opacity: 0;"></div>
+                            <div class="navbar-submenu-content-submenu"
+                                style="transform-origin: 487px 481px; transform: translate(0px, 0px); height: 100%; width: 100%;">
+                                <div class="navbar-submenu-collapse-submenu navbar-collapse">
+                                    <div class="navbar-collapse">
+                                        <div
+                                            class="navbar-submenu-collapse-header-submenu navbar-submenu-collapse-header">
+                                            <div class="container">
+                                                <button class="btn btn-link"
+                                                    aria-label="service-submenu-button">Back</button>
+                                            </div>
+                                        </div>
+                                        <div class="navbar-submenu-collapse-content-submenu">
+                                            <div class="container">
+                                                <h2>Services</h2>
+                                                <div class="row w-100">
+                                                    <div class="col-md-4">
+                                                        <ul class="navbar-nav mb-4">
+                                                            <li class="nav-item"><a class="nav-link"
+                                                                    href="/water-ipl-payment/">Water &amp; IPL
+                                                                    Payment</a>
+                                                            </li>
+                                                            <li class="nav-item"><a class="nav-link"
+                                                                    href="/marketing-gallery/">Marketing Gallery</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <a class="btn btn-secondary btn-block" href="/contact-us/">Contact
+                                                        Us<!-- --> <i class="fas fa-arrow-right ml-1"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form action="/search-result" id="search-bar-mobile" class="form-search-mobile false">
+                    <input class="form-control-mobile" name="key" id="key" type="text" placeholder="Type to search">
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <main class="" id="Body">
+        <div class="container main-padding" style="">
+            <!-- <p>
+                Aliquid quia natus sit repellendus. Quod harum totam expedita exercitationem est inventore. Ut minima
+                tempore qui et quibusdam eveniet. Et porro et dicta vel deleniti enim incidunt quam. Provident qui
+                doloremque itaque et. Mollitia officiis accusantium sit suscipit ratione dolores quos.
+
+                Voluptas exercitationem dolorem qui autem. Corrupti laborum optio perspiciatis. Suscipit iste non
+                officia autem soluta tempora minima cupiditate. Molestiae rerum amet vero sapiente. Id dolorum quis
+                perspiciatis inventore incidunt.
+
+                Reiciendis unde aut veniam maxime molestiae quisquam. Voluptas tenetur qui nisi. Nesciunt occaecati esse
+                quo error officiis consequatur officiis delectus. Vero nihil et vero officiis eos. Quam inventore id sed
+                magnam enim sit cumque illo. Rerum error unde fuga harum in.
+
+                Consequatur autem illo consequatur saepe voluptas accusantium. Perspiciatis esse deserunt velit id.
+                Eligendi ullam tenetur vero quia sint. Deserunt nihil maiores rerum praesentium non quos et earum.
+
+                Consequuntur veritatis blanditiis veritatis mollitia occaecati accusantium provident ea. Sunt corporis
+                hic omnis ullam rerum corporis. Unde consectetur ducimus voluptas labore aperiam optio at.
+            </p> -->
+
+            <div class="registpas">
+                <div class="ant-row">
+                    <div class="ant-col ant-col-xs-20 ant-col-xs-offset-2 ant-col-lg-14 ant-col-lg-offset-5">
+                        <div>
+                            <h2>RSVP</h2><span>Please Confirm Your Attendance</span>
+                            <div style="margin-top: 50px;">
+                                <form class="formregis ant-form ant-form-horizontal">
+                                    <div class="ant-row" style="margin-left: -7.5px; margin-right: -7.5px;">
+                                        <div class="ant-col ant-col-lg-12"
+                                            style="padding-left: 7.5px; padding-right: 7.5px;">
+                                            <div class="ant-row ant-form-item">
+                                                <div class="ant-col ant-form-item-control-wrapper">
+                                                    <div class="ant-form-item-control"><span
+                                                            class="ant-form-item-children"><input
+                                                                placeholder="Full Name" type="text" autocomplete="off"
+                                                                data-__meta="[object Object]"
+                                                                data-__field="[object Object]" id="register_fullName"
+                                                                class="ant-input"></span><!----></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ant-col ant-col-lg-12"
+                                            style="padding-left: 7.5px; padding-right: 7.5px;">
+                                            <div class="ant-row ant-form-item">
+                                                <div class="ant-col ant-form-item-control-wrapper">
+                                                    <div class="ant-form-item-control"><span
+                                                            class="ant-form-item-children"><input placeholder="Company"
+                                                                type="text" autocomplete="off"
+                                                                data-__meta="[object Object]"
+                                                                data-__field="[object Object]" id="register_company"
+                                                                class="ant-input"></span><!----></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ant-col ant-col-lg-12"
+                                            style="padding-left: 7.5px; padding-right: 7.5px;">
+                                            <div class="ant-row ant-form-item">
+                                                <div class="ant-col ant-form-item-control-wrapper">
+                                                    <div class="ant-form-item-control"><span
+                                                            class="ant-form-item-children"><input
+                                                                placeholder="Email Address" type="email"
+                                                                autocomplete="off" data-__meta="[object Object]"
+                                                                data-__field="[object Object]" id="register_email"
+                                                                class="ant-input"></span><!----></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ant-col ant-col-lg-12"
+                                            style="padding-left: 7.5px; padding-right: 7.5px;">
+                                            <div class="ant-row ant-form-item">
+                                                <div class="ant-col ant-form-item-control-wrapper">
+                                                    <div class="ant-form-item-control"><span
+                                                            class="ant-form-item-children"><input
+                                                                placeholder="Phone Number" type="text"
+                                                                autocomplete="off" data-__meta="[object Object]"
+                                                                data-__field="[object Object]" id="register_phone"
+                                                                class="ant-input"></span><!----></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ant-col ant-col-lg-24"
+                                            style="padding-left: 7.5px; padding-right: 7.5px;"><button type="submit"
+                                                class="login-form-button ant-btn ant-btn-link"><span>Confirm</span></button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div style="margin-top: 20px;"><small>* <i>This invitation is valid only for the
+                                            intended recipient.</i></small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="buffer-text" class="pb-5">
+            <span></span>
+        </div>
+    </main>
+    <div class="et_builder_inner_content et_pb_gutters3">
+        <div class="et_pb_section et_pb_section_0_tb_footer et_pb_with_background et_section_regular">
+            <div class="et_pb_row et_pb_row_0_tb_footer">
+                <div
+                    class="et_pb_column et_pb_column_4_4 et_pb_column_0_tb_footer  et_pb_css_mix_blend_mode_passthrough et-last-child">
+                    <div
+                        class="et_pb_module et_pb_text et_pb_text_0_tb_footer  et_pb_text_align_center et_pb_bg_layout_light">
+                        <div class="et_pb_text_inner">
+                            <p>A joint venture company of</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="et_pb_row et_pb_row_1_tb_footer et_pb_gutters1">
+                <div
+                    class="et_pb_column et_pb_column_4_4 et_pb_column_1_tb_footer  et_pb_css_mix_blend_mode_passthrough et-last-child">
+                    <div class="et_pb_module et_pb_image et_pb_image_0_tb_footer">
+                        <span class="et_pb_image_wrap "><img decoding="async" loading="lazy" width="1080" height="165"
+                                src="https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-mitbana-sinarmas-land-logo.png"
+                                alt="" title=""
+                                srcset="https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-mitbana-sinarmas-land-logo.png 1080w, https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-mitbana-sinarmas-land-logo-980x150.png 980w, https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-mitbana-sinarmas-land-logo-480x73.png 480w"
+                                sizes="(min-width: 0px) and (max-width: 480px) 480px, (min-width: 481px) and (max-width: 980px) 980px, (min-width: 981px) 1080px, 100vw"
+                                class="wp-image-907"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="et_pb_row et_pb_row_2_tb_footer">
+                <div
+                    class="et_pb_column et_pb_column_4_4 et_pb_column_2_tb_footer  et_pb_css_mix_blend_mode_passthrough et-last-child">
+                    <div
+                        class="et_pb_module et_pb_text et_pb_text_1_tb_footer  et_pb_text_align_left et_pb_text_align_center-phone et_pb_bg_layout_light">
+                        <div class="et_pb_text_inner">
+                            <p>Connect with us through social media portals</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="et_pb_row et_pb_row_3_tb_footer hiera-footer et_pb_equal_columns">
+                <div
+                    class="et_pb_column et_pb_column_1_2 et_pb_column_3_tb_footer  et_pb_css_mix_blend_mode_passthrough d-flex flex-row">
+                    <div class="et_pb_module et_pb_image et_pb_image_1_tb_footer">
+                        <a href="https://bit.ly/3DXaXgz" target="_blank"><span class="et_pb_image_wrap "><img
+                                    decoding="async" loading="lazy" width="64" height="64"
+                                    src="https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-icon-64px_0003_fb.png"
+                                    alt="" title="" class="wp-image-909"></span></a>
+                    </div>
+                    <div class="et_pb_module et_pb_image et_pb_image_2_tb_footer">
+                        <a href="https://www.instagram.com/hierabsd/" target="_blank"><span
+                                class="et_pb_image_wrap "><img decoding="async" loading="lazy" width="64" height="64"
+                                    src="https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-icon-64px_0002_ig.png"
+                                    alt="" title="" class="wp-image-910"></span></a>
+                    </div>
+                    <div class="et_pb_module et_pb_image et_pb_image_3_tb_footer">
+                        <a href="https://www.tiktok.com/@hierabsd" target="_blank"><span class="et_pb_image_wrap "><img
+                                    decoding="async" loading="lazy" width="64" height="64"
+                                    src="https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-icon-64px_0000_tiktok.png"
+                                    alt="" title="" class="wp-image-911"></span></a>
+                    </div>
+                    <div class="et_pb_module et_pb_image et_pb_image_4_tb_footer">
+                        <a href="https://bit.ly/3UHncnj" target="_blank"><span class="et_pb_image_wrap "><img
+                                    decoding="async" loading="lazy" width="64" height="64"
+                                    src="https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-icon-64px_0001_youtube.png"
+                                    alt="" title="" class="wp-image-912"></span></a>
+                    </div>
+                </div>
+                <div
+                    class="et_pb_column et_pb_column_1_2 et_pb_column_4_tb_footer  et_pb_css_mix_blend_mode_passthrough et-last-child">
+                    <div class="et_pb_module et_pb_image et_pb_image_5_tb_footer">
+                        <span class="et_pb_image_wrap "><img decoding="async" loading="lazy" width="1375" height="684"
+                                src="https://hiera.co.id/wp-content/uploads/2022/11/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-logo-3.png"
+                                alt="" title=""
+                                srcset="https://hiera.co.id/wp-content/uploads/2022/11/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-logo-3.png 1375w, https://hiera.co.id/wp-content/uploads/2022/11/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-logo-3-1280x637.png 1280w, https://hiera.co.id/wp-content/uploads/2022/11/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-logo-3-980x488.png 980w, https://hiera.co.id/wp-content/uploads/2022/11/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-logo-3-480x239.png 480w"
+                                sizes="(min-width: 0px) and (max-width: 480px) 480px, (min-width: 481px) and (max-width: 980px) 980px, (min-width: 981px) and (max-width: 1280px) 1280px, (min-width: 1281px) 1375px, 100vw"
+                                class="wp-image-1084"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="et_pb_row et_pb_row_4_tb_footer et_pb_gutters3 et_pb_row_4col">
+                <div
+                    class="et_pb_column et_pb_column_1_4 et_pb_column_5_tb_footer  et_pb_css_mix_blend_mode_passthrough">
+                    <div
+                        class="et_pb_module et_pb_text et_pb_text_2_tb_footer  et_pb_text_align_left et_pb_text_align_center-phone et_pb_bg_layout_light">
+                        <div class="et_pb_text_inner">
+                            <h4>Business Hours</h4>
+                        </div>
+                    </div>
+                    <div
+                        class="et_pb_module et_pb_text et_pb_text_3_tb_footer  et_pb_text_align_left et_pb_bg_layout_light">
+                        <div class="et_pb_text_inner">
+                            <p>Monday to Sunday:<br>8:30 AM-5:30 PM</p>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="et_pb_column et_pb_column_1_4 et_pb_column_6_tb_footer  et_pb_css_mix_blend_mode_passthrough">
+                    <div
+                        class="et_pb_module et_pb_text et_pb_text_4_tb_footer  et_pb_text_align_left et_pb_text_align_center-phone et_pb_bg_layout_light">
+                        <div class="et_pb_text_inner">
+                            <h4>Marketing Gallery</h4>
+                        </div>
+                    </div>
+                    <div
+                        class="et_pb_module et_pb_text et_pb_text_5_tb_footer  et_pb_text_align_left et_pb_bg_layout_light">
+                        <div class="et_pb_text_inner">
+                            <p>The Breeze – Lake Level L. 03 Jl. BSD Grand Boulevard blok L no. L03 Green Office Park –
+                                BSD City Sampora – Kab. Tangerang Banten 15345</p>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="et_pb_column et_pb_column_1_4 et_pb_column_7_tb_footer  et_pb_css_mix_blend_mode_passthrough">
+
+
+
+
+                    <div
+                        class="et_pb_module et_pb_text et_pb_text_6_tb_footer  et_pb_text_align_left et_pb_text_align_center-phone et_pb_bg_layout_light">
+
+
+
+
+                        <div class="et_pb_text_inner">
+                            <h4>Our Social Media</h4>
+                        </div>
+                    </div>
+                    <div
+                        class="et_pb_module et_pb_blurb et_pb_blurb_0_tb_footer et_clickable  et_pb_text_align_left  et_pb_blurb_position_left et_pb_bg_layout_light">
+
+
+
+
+                        <div class="et_pb_blurb_content">
+                            <div class="et_pb_main_blurb_image"><span
+                                    class="et_pb_image_wrap et_pb_only_image_mode_wrap"><img decoding="async"
+                                        loading="lazy" width="64" height="64"
+                                        src="https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-icon-64px_0003_fb.png"
+                                        alt=""
+                                        class="et-waypoint et_pb_animation_top et_pb_animation_top_tablet et_pb_animation_top_phone wp-image-909 et-animated"
+                                        title=""></span></div>
+                            <div class="et_pb_blurb_container">
+                                <h4 class="et_pb_module_header"><span>Facebook</span></h4>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="et_pb_module et_pb_blurb et_pb_blurb_1_tb_footer et_clickable  et_pb_text_align_left  et_pb_blurb_position_left et_pb_bg_layout_light">
+
+
+
+
+                        <div class="et_pb_blurb_content">
+                            <div class="et_pb_main_blurb_image"><span
+                                    class="et_pb_image_wrap et_pb_only_image_mode_wrap"><img decoding="async"
+                                        loading="lazy" width="64" height="64"
+                                        src="https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-icon-64px_0002_ig.png"
+                                        alt=""
+                                        class="et-waypoint et_pb_animation_top et_pb_animation_top_tablet et_pb_animation_top_phone wp-image-910 et-animated"
+                                        title=""></span></div>
+                            <div class="et_pb_blurb_container">
+                                <h4 class="et_pb_module_header"><span>Instagram</span></h4>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="et_pb_module et_pb_blurb et_pb_blurb_2_tb_footer et_clickable  et_pb_text_align_left  et_pb_blurb_position_left et_pb_bg_layout_light">
+
+
+
+
+                        <div class="et_pb_blurb_content">
+                            <div class="et_pb_main_blurb_image"><span
+                                    class="et_pb_image_wrap et_pb_only_image_mode_wrap"><img decoding="async"
+                                        loading="lazy" width="64" height="64"
+                                        src="https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-icon-64px_0000_tiktok.png"
+                                        alt=""
+                                        class="et-waypoint et_pb_animation_top et_pb_animation_top_tablet et_pb_animation_top_phone wp-image-911 et-animated"
+                                        title=""></span></div>
+                            <div class="et_pb_blurb_container">
+                                <h4 class="et_pb_module_header"><span>TikTok</span></h4>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="et_pb_module et_pb_blurb et_pb_blurb_3_tb_footer et_clickable  et_pb_text_align_left  et_pb_blurb_position_left et_pb_bg_layout_light">
+
+
+
+
+                        <div class="et_pb_blurb_content">
+                            <div class="et_pb_main_blurb_image"><span
+                                    class="et_pb_image_wrap et_pb_only_image_mode_wrap"><img decoding="async"
+                                        loading="lazy" width="64" height="64"
+                                        src="https://hiera.co.id/wp-content/uploads/2022/10/hiera-bsd-perumahan-rumah-city-bumi-serpong-damai-jual-harga-tangerang-selatan-sinarmas-land-pt-sinar-mitbana-mas-the-heartland-of-hiera-icon-64px_0001_youtube.png"
+                                        alt=""
+                                        class="et-waypoint et_pb_animation_top et_pb_animation_top_tablet et_pb_animation_top_phone wp-image-912 et-animated"
+                                        title=""></span></div>
+                            <div class="et_pb_blurb_container">
+                                <h4 class="et_pb_module_header"><span>Youtube</span></h4>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="et_pb_column et_pb_column_1_4 et_pb_column_8_tb_footer  et_pb_css_mix_blend_mode_passthrough et-last-child">
+
+
+
+
+                    <div
+                        class="et_pb_module et_pb_text et_pb_text_7_tb_footer  et_pb_text_align_left et_pb_text_align_center-phone et_pb_bg_layout_light">
+
+
+
+
+                        <div class="et_pb_text_inner">
+                            <h4>Menu</h4>
+                        </div>
+                    </div>
+                    <div
+                        class="et_pb_module et_pb_text et_pb_text_8_tb_footer  et_pb_text_align_left et_pb_bg_layout_light">
+
+
+
+
+                        <div class="et_pb_text_inner"><span style="color: #666666;"><a href="/news/"
+                                    style="color: #666666;">News &amp; Event</a></span><br>
+                            <span style="color: #666666;"><a href="/3d-virtual/" style="color: #666666;">3D
+                                    Virtual</a></span><br>
+                            <span style="color: #666666;"><a href="/contact-us/" style="color: #666666;">Contact
+                                    Us</a></span><br>
+                            <a href="/disclaimer/"><span style="color: #666666;">Disclaimer</span></a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="et_pb_row et_pb_row_5_tb_footer">
+                <div
+                    class="et_pb_column et_pb_column_4_4 et_pb_column_9_tb_footer  et_pb_css_mix_blend_mode_passthrough et-last-child">
+
+
+
+
+                    <div
+                        class="et_pb_module et_pb_text et_pb_text_10_tb_footer  et_pb_text_align_center et_pb_bg_layout_light">
+
+
+
+
+                        <div class="et_pb_text_inner">
+                            <div id="footer-info">© 2022-2024 <a href="/">PT Sinar Mitbana Mas</a>. All rights reserved.
+                                | Developed by <a href="https://nectar.id" title="Jasa Pembuatan Website NECTAR"
+                                    target="blank" class="nectarfooter">Nectar Website.</a><input hidden=""
+                                    placeholder="completeecom_e_5_comecom"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=maps,marker&v=beta" defer></script>-->
+    <script src="./js/index.js" type="text/javascript"></script>
+
+</body>

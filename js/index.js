@@ -272,3 +272,6 @@ function openSearchMobile() {
 }
 
 document.querySelector('button[aria-label="toggler-search-mobile"]').onclick = openSearchMobile;
+
+// For index.html
+

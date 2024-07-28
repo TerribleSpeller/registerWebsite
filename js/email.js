@@ -1,4 +1,4 @@
-import { SMTPClient, Message } from '../libs/email.min.js';
+import { SMTPClient, Message } from '../lib/email.min.js';
 
 const sendEmail = () => {
     const client = new SMTPClient({

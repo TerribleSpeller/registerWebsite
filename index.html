@@ -18,8 +18,6 @@
         <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-        <script src="https://unpkg.com/smtp.js/dist/smtp.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/emailjs@4.0.3/email.min.js"></script>
         <!--Yoinked-->
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no">
 
@@ -149,9 +147,20 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="ant-col ant-col-lg-12" style="padding-left: 7.5px; padding-right: 7.5px;">
+                                            <div class="ant-row ant-form-item">
+                                                <div class="ant-col ant-form-item-control-wrapper">
+                                                    <div class="ant-form-item-control">
+                                                        <span class="ant-form-item-children">
+                                                            <input placeholder="Password" type="password" autocomplete="off" id="register_password" class="ant-input" required>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="ant-col ant-col-lg-24"
-                                            style="padding-left: 7.5px; padding-right: 7.5px;"><button type="submit"
-                                                class="login-form-button ant-btn ant-btn-link"><span>Confirm</span></button>
+                                            style="padding-left: 7.5px; padding-right: 7.5px;"><button 
+                                                class="login-form-button ant-btn ant-btn-link" id="submitButton"><span>Confirm</span></button>
                                         </div>
                                     </div>
                                 </form>
@@ -451,25 +460,29 @@
     <script type="module">
 
         //The Push System to Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { app, database, auth } from './firebase-config.js';
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
-        import { app, database } from './firebase-config.js';
-        import { sendEmail } from './js/email.js';
-        document.getElementById('user-form').addEventListener('submit', function (event) {
+        import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+        import { getStorage, ref as storageRef, uploadString, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js';
+
+
+        document.getElementById('submitButton').addEventListener('click', async  (event) => {
             event.preventDefault();
 
             var name = document.getElementById('register_fullName').value;
             var email = document.getElementById('register_email').value;
             var company = document.getElementById('register_company').value;
             var phone = document.getElementById('register_phone').value.toString();
+            var password = document.getElementById("register_password").value;
             var id = Date.now();
+        
 
 
             var data = { name: name, email: email, id: id, company: company, phoneno: phone, id: id, attending: false };
 
             //The not push but make QR Code
             var qrContentInput = JSON.stringify(data)
-            console.log(qrContentInput)
+            //console.log(qrContentInput)
             var qrGenerationForm = document.getElementById("user-form");
             var qrCode;
     
@@ -495,15 +508,76 @@
 
                 qrCode.makeCode(qrContent);
             }
-            document.getElementById('caption').innerText = `This QR Code is unique to you, ${name}. Please save it for attendance when arriving on site.`;
 
-            set(ref(database, 'guests/' + id), data);
-            sendEmail();
-          
-    
+            const storage = getStorage();
+
+            // Wait for the QR code to be generated
+            const qrCodeElement = document.getElementById("qr-code");
+
+            setTimeout(async () => {
+                // Convert QR code to data URL
+                const qrCodeDataURL = qrCodeElement.querySelector('img').src;
+
+                // Upload QR code image to Firebase Storage
+                const qrCodeStorageRef = storageRef(storage, `qr_codes/${id}.png`);
+                try {
+                    await uploadString(qrCodeStorageRef, qrCodeDataURL, 'data_url');
+                    const qrCodeURL = await getDownloadURL(qrCodeStorageRef);
+
+                    // Save user data along with QR code URL to Firebase Realtime Database
+                    data.qrCodeURL = qrCodeURL;
+                    await set(ref(database, `guests/${id}`), data);
+
+                    alert('Thank you for your RSVP. Your QR code is ready for download.');
+
+                } catch (error) {
+                    console.error('Error uploading QR code:', error);
+                }
+            }, 1000); // Delay to ensure QR code generation
+
             alert('Thank you for your RSVP. Your QR code is ready for download.');
+
+
         });
 
+    </script>
+
+    <script type="module">
+        // Import and configure Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
+    
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+        apiKey: "AIzaSyAGAE_ojAoeH7oWvcYOQgXm9ZAqck1EeTU",
+        authDomain: "register-web-4a5f8.firebaseapp.com",
+        databaseURL: "https://register-web-4a5f8-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "register-web-4a5f8",
+        storageBucket: "register-web-4a5f8.appspot.com",
+        messagingSenderId: "911239776802",
+        appId: "1:911239776802:web:5ef911f6dd2c27ae4b187b"
+        };
+    
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+    
+        // Handle sign-up form submission
+        document.getElementById('submitButton').addEventListener('click', async (event) => {
+        event.preventDefault();
+    
+        const email = document.getElementById('register_email').value;
+        const password = document.getElementById('register_password').value;
+    
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+            alert('Sign up successful!');
+        } catch (error) {
+            console.log(error);
+        }
+        });
+    
     </script>
 
 

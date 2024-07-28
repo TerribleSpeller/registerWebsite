@@ -417,21 +417,39 @@
     <script type="module">
         import { auth } from './firebase-config.js';
         import { signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
-        import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
+        import { getDatabase, ref, onValue, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         import { app, database } from './firebase-config.js';
 
+        // Function to remove domain part from email
+        const sanitizeEmail = (email) => {
+            return email.replace(/\.com$/, ''); // Remove ".com" from the end
+        };
     
         document.getElementById('login-form').addEventListener('submit', (e) => {
           e.preventDefault();
           const email = document.getElementById('email').value;
+          const sanitizedEmail = sanitizeEmail(email);
+
           const password = document.getElementById('password').value;
     
           signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-              window.location.href = 'admin/dashboard.html';
+            .then(async (userCredential) => {
+                // Check if the signed-in user is an admin
+                const adminRef = ref(database, 'admin/' + sanitizedEmail);
+                console.log(adminRef)
+                const snapshot = await get(adminRef);
+
+                if (snapshot.exists()) {
+                    alert('Welcome, Admin!');
+                    window.location.href = 'admin/dashboard.html';
+
+                } else {
+                    window.location.href = 'dashboard.html';
+                    
+                }
             })
             .catch((error) => {
-              document.getElementById('message').textContent = error.message;
+              console.log(error)
             });
         });
       </script>

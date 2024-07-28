@@ -82,7 +82,7 @@
                                                 <div><a class="nav-link" href="/">Main Site</a></div>
                                             </li>
                                             <li class="nav-item">
-                                                <div> <a class="nav-link" id="logout">Logout</a> </div>
+                                                <div> <a class="nav-link" id="logout2">Logout</a> </div>
                                             </li>
 
                                     </div>
@@ -196,6 +196,15 @@
             });
         });
 
+        document.getElementById('logout2').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                window.location.href = '../index.html';
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        });
+
         // Export data to Excel function
         document.getElementById('export').addEventListener('click', () => {
             exportTableToExcel('data-table', 'guests_data');
@@ -275,6 +284,7 @@
             });
             alert("Marked as attending!");
         });
+        
     </script>
 </body>
 

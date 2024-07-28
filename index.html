@@ -18,6 +18,8 @@
         <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+        <script src="https://unpkg.com/smtp.js/dist/smtp.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/emailjs@4.0.3/email.min.js"></script>
         <!--Yoinked-->
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no">
 
@@ -452,7 +454,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
         import { app, database } from './firebase-config.js';
-
+        import { sendEmail } from './js/email.js';
         document.getElementById('user-form').addEventListener('submit', function (event) {
             event.preventDefault();
 
@@ -496,10 +498,14 @@
             document.getElementById('caption').innerText = `This QR Code is unique to you, ${name}. Please save it for attendance when arriving on site.`;
 
             set(ref(database, 'guests/' + id), data);
+            sendEmail();
+          
+    
             alert('Thank you for your RSVP. Your QR code is ready for download.');
         });
 
     </script>
+
 
 
     <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=maps,marker&v=beta" defer></script>-->

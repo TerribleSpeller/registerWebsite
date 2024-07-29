@@ -556,20 +556,16 @@
                 if (scanner) {
                     const dataTableBody = document.getElementById('data-table').querySelector('tbody');
                     const existingRow = dataTableBody.querySelector(`tr[data-id="${decodeText}"]`);
-
-                    if (!existingRow) {
-                        const newRow = document.createElement('tr');
-                        newRow.innerHTML = `
-                            <td>${decodeText}</td>
-                            <td>${readData.name}</td>
-                            <td>${readData.company}</td>
-                            <td>${readData.email}</td>
-                            <td>${readData.phoneno}</td>
-                            <td>Yes</td>
-                        `;
-                    }
-
-                   
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td>${decodeText}</td>
+                        <td>${readData.name}</td>
+                        <td>${readData.company}</td>
+                        <td>${readData.email}</td>
+                        <td>${readData.phoneno}</td>
+                        <td>Yes</td>
+                    `;
+                                     
                     dataTableBody.appendChild(newRow);                }
             });
             }

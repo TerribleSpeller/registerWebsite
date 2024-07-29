@@ -397,6 +397,24 @@
             </div>
         </div>
     </div>
+    <script>
+        //To cut connections
+        let timeoutId;
+        const onFocus = () => {
+        window.clearTimeout(timeoutId);
+        firebase.database().goOnline();
+        };
+
+        const onBlur = () => {
+        window.clearTimeout(timeoutId);
+        timeoutId = window.setTimeout(() => {
+            firebase.database().goOffline();
+        }, 10000);
+        };
+
+        window.addEventListener("focus", onFocus);
+        window.addEventListener("blur", onBlur);
+    </script>
     <script type="module">
         //The Push System to Firebase
         import { app, database, auth } from './firebase-config.js';

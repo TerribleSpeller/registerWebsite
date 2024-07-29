@@ -120,6 +120,9 @@
                             <span id="phone">Loading...</span>
                         </div>
                         <div class="p-2 flex-fill fs-3">
+                            <span id="category">Loading...</span>
+                        </div>
+                        <div class="p-2 flex-fill fs-3">
                             <span id="company">Loading...</span>
                         </div>
                     </div>
@@ -351,24 +354,7 @@
         </div>
     </div>
 
-    <script>
-        //To cut connections
-        let timeoutId;
-        const onFocus = () => {
-        window.clearTimeout(timeoutId);
-        firebase.database().goOnline();
-        };
-
-        const onBlur = () => {
-        window.clearTimeout(timeoutId);
-        timeoutId = window.setTimeout(() => {
-            firebase.database().goOffline();
-        }, 10000);
-        };
-
-        window.addEventListener("focus", onFocus);
-        window.addEventListener("blur", onBlur);
-    </script>
+ 
     <script type="module">
         import { auth } from '../firebase-config.js'; // Ensure this path is correct
         import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
@@ -405,6 +391,7 @@
                 }
             } catch (error) {
                 console.error('Error fetching user data:', error);
+                alert(error)
             }
         }
 
@@ -415,6 +402,7 @@
             document.getElementById('name').innerHTML = `Name: ${userData.name}`;
             document.getElementById('email').innerHTML = `Email: ${userData.email}`;
             document.getElementById('phone').innerHTML = `Phone: ${userData.phoneno}`;
+            document.getElementById('category').innerHTML = `category: ${userData.category}`;
             document.getElementById('company').innerHTML = `Company: ${userData.company}`;
             if (userData.qrCodeURL) {
                 const qrCodeImg = document.getElementById('qr-code-img');
@@ -430,6 +418,7 @@
                 window.location.href = '../index.html';
             } catch (error) {
                 console.error('Logout error:', error);
+                alert(error)
             }
         });
         document.getElementById('logout2').addEventListener('click', async () => {
@@ -438,6 +427,7 @@
                 window.location.href = '../index.html';
             } catch (error) {
                 console.error('Logout error:', error);
+                alert(error)
             }
         });
     </script>

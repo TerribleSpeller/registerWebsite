@@ -108,19 +108,6 @@
                                             <div class="ant-row ant-form-item">
                                                 <div class="ant-col ant-form-item-control-wrapper">
                                                     <div class="ant-form-item-control"><span
-                                                            class="ant-form-item-children"><input placeholder="Company"
-                                                                type="text" autocomplete="off"
-                                                                data-__meta="[object Object]"
-                                                                data-__field="[object Object]" id="register_company"
-                                                                class="ant-input" required></span><!----></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="ant-col ant-col-lg-12"
-                                            style="padding-left: 7.5px; padding-right: 7.5px;">
-                                            <div class="ant-row ant-form-item">
-                                                <div class="ant-col ant-form-item-control-wrapper">
-                                                    <div class="ant-form-item-control"><span
                                                             class="ant-form-item-children"><input
                                                                 placeholder="Email Address" type="email"
                                                                 autocomplete="off" data-__meta="[object Object]"
@@ -129,6 +116,37 @@
                                                 </div>
                                             </div>
                                         </div>
+                
+                                        <div class="ant-col ant-col-lg-12" style="padding-left: 7.5px; padding-right: 7.5px;">
+                                            <div class="ant-row ant-form-item">
+                                                <div class="ant-col ant-form-item-control-wrapper">
+                                                    <div class="ant-form-item-control">
+                                                        <span class="ant-form-item-children">
+                                                            <select id="register_category" class="ant-input" required>
+                                                                <option value="" disabled selected>Select a Company Category</option>
+                                                                <option value="Kantor Agent">Kantor Agent</option>
+                                                                <option value="Bank">Bank</option>
+                                                                <option value="Others">Others</option>
+                                                            </select>
+                                                        </span>
+                                                        <!---->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ant-col ant-col-lg-12"
+                                        style="padding-left: 7.5px; padding-right: 7.5px;">
+                                        <div class="ant-row ant-form-item">
+                                            <div class="ant-col ant-form-item-control-wrapper">
+                                                <div class="ant-form-item-control"><span
+                                                        class="ant-form-item-children"><input placeholder="Company"
+                                                            type="text" autocomplete="off"
+                                                            data-__meta="[object Object]"
+                                                            data-__field="[object Object]" id="register_company"
+                                                            class="ant-input" required></span><!----></div>
+                                            </div>
+                                        </div>
+                                    </div> 
                                         <div class="ant-col ant-col-lg-12"
                                             style="padding-left: 7.5px; padding-right: 7.5px;">
                                             <div class="ant-row ant-form-item">
@@ -397,24 +415,7 @@
             </div>
         </div>
     </div>
-    <script>
-        //To cut connections
-        let timeoutId;
-        const onFocus = () => {
-        window.clearTimeout(timeoutId);
-        firebase.database().goOnline();
-        };
-
-        const onBlur = () => {
-        window.clearTimeout(timeoutId);
-        timeoutId = window.setTimeout(() => {
-            firebase.database().goOffline();
-        }, 10000);
-        };
-
-        window.addEventListener("focus", onFocus);
-        window.addEventListener("blur", onBlur);
-    </script>
+ 
     <script type="module">
         //The Push System to Firebase
         import { app, database, auth } from './firebase-config.js';
@@ -428,8 +429,9 @@
             var company = document.getElementById('register_company').value;
             var phone = document.getElementById('register_phone').value.toString();
             var password = document.getElementById("register_password").value;
+            var category = document.getElementById('register_category').value;
             var id = Date.now();
-            var data = { name: name, email: email, id: id, company: company, phoneno: phone, id: id, attending: false };
+            var data = { name: name, email: email, id: id, category: category, company: company, phoneno: phone, id: id, attending: false };
             //The not push but make QR Code
             var qrContentInput = JSON.stringify(data)
             //console.log(qrContentInput)
@@ -495,6 +497,7 @@
                   }
                 } catch (error) {
                   console.error('Error getting data:', error);
+                  alert(error)
                 }
               }
             const isUsedEmail = await findGuestByEmail(email);
@@ -525,6 +528,7 @@
                         alert('Thank you for your RSVP. Your QR code is ready for download.');
                     } catch (error) {
                         console.error('Error uploading QR code:', error);
+                        alert(error)
                     }
                 }, 1000); // Delay to ensure QR code generation
             }
@@ -603,6 +607,7 @@
                   }
                 } catch (error) {
                   console.error('Error getting data:', error);
+                  alert(error)
                 }
               }
             const isUsedEmail = await findGuestByEmail(email);
@@ -615,6 +620,7 @@
                     alert('Sign up successful!');
                 } catch (error) {
                     console.log(error);
+                    alert(error)
                 }
             }
 

@@ -350,24 +350,7 @@
             </div>
         </div>
     </div>
-    <script>
-        //To cut connections
-        let timeoutId;
-        const onFocus = () => {
-        window.clearTimeout(timeoutId);
-        firebase.database().goOnline();
-        };
-
-        const onBlur = () => {
-        window.clearTimeout(timeoutId);
-        timeoutId = window.setTimeout(() => {
-            firebase.database().goOffline();
-        }, 10000);
-        };
-
-        window.addEventListener("focus", onFocus);
-        window.addEventListener("blur", onBlur);
-    </script>
+ 
     <script type="module">
         import { auth } from '../firebase-config.js';
         import { signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
@@ -399,6 +382,7 @@
                 })
                 .catch((error) => {
                     console.log(error)
+                    alert(error)
                 });
         });
     </script>

@@ -372,33 +372,43 @@
     <script type="module">
         import { auth } from '../firebase-config.js'; //REMEMEBR TO DIRECT IT PROPERLY!
         import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
-        import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
+        import { getDatabase, ref, onValue, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
 
         const database = getDatabase();
         const dataTableBody = document.getElementById('data-table').querySelector('tbody');
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = '../index.html';
             } else {
+                const sanitizeEmail = (email) => {
+                    return email.replace(/\.com$/, ''); // Remove ".com" from the end
+                };
+                const email = auth.currentUser.email;
+                const sanitizedEmail = sanitizeEmail(email);
+                const adminRef = ref(database, 'admin/' + sanitizedEmail);
+                const scanRef = ref(database, 'scanner/' + sanitizedEmail);
+                const snapshot = await get(adminRef);
+                const snapshotScan = await get(scanRef);
                 const dataRef = ref(database, 'guests');
-                onValue(dataRef, (snapshot) => {
-                    const data = snapshot.val();
-                    dataTableBody.innerHTML = '';
-                    for (let key in data) {
-                        let row = data[key];
-                        dataTableBody.innerHTML += `
-              <tr>
-                <td>${row.id}</td>
-                <td>${row.name}</td>
-                <td>${row.company}</td>
-                <td>${row.email}</td>
-                <td>${row.phoneno}</td>
-                <td>${row.attending ? 'Yes' : 'No'}</td>
-              </tr>
-            `;
-                    }
-                });
+                    onValue(dataRef, (snapshot) => {
+                        const data = snapshot.val();
+                        dataTableBody.innerHTML = '';
+                        for (let key in data) {
+                            let row = data[key];
+                            dataTableBody.innerHTML += `
+                                <tr>
+                                    <td>${row.id}</td>
+                                    <td>${row.name}</td>
+                                    <td>${row.company}</td>
+                                    <td>${row.email}</td>
+                                    <td>${row.phoneno}</td>
+                                    <td>${row.attending ? 'Yes' : 'No'}</td>
+                                </tr>
+                                `;
+                        }
+                    });
+  
             }
         });
 
@@ -450,8 +460,7 @@
     </script>
     <script  type="module">
         import { getDatabase, ref, onValue, set } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
-        
-
+        import { auth } from '../firebase-config.js'; //REMEMEBR 
         function domReady(fn) {
             if (
                 document.readyState === "complete" ||
@@ -464,7 +473,6 @@
         }
         
         domReady(function () {
-        
             function onScanSuccess(decodeText, decodeResult) {
                 document.getElementById('id').innerText = decodeText;
                 const database = getDatabase();

@@ -81,7 +81,6 @@
         </div>
 
     </div>
-
     <main class="" id="Body">
         <div class="container main-padding" style="">
             <div class="registpas">
@@ -351,39 +350,33 @@
             </div>
         </div>
     </div>
-
     <script type="module">
         import { auth } from '../firebase-config.js';
         import { signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
         import { getDatabase, ref, onValue, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         import { app, database } from '../firebase-config.js';
-
         // Function to remove domain part from email
         const sanitizeEmail = (email) => {
             return email.replace(/\.com$/, ''); // Remove ".com" from the end
         };
-
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const sanitizedEmail = sanitizeEmail(email);
-
             const password = document.getElementById('password').value;
-
             signInWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
                     // Check if the signed-in user is an admin
                     const adminRef = ref(database, 'admin/' + sanitizedEmail);
-                    console.log(adminRef)
+                    const scanRef = ref(database, 'scanner/' + sanitizedEmail);
+                    //console.log(adminRef)
                     const snapshot = await get(adminRef);
-
-                    if (snapshot.exists()) {
+                    const snapshotScan = await get(scanRef)
+                    if (snapshot.exists() || snapshotScan.exists()) {
                         alert('Welcome, Admin!');
                         window.location.href = '../admin/dashboard.html';
-
                     } else {
                         window.location.href = 'dashboard.html';
-
                     }
                 })
                 .catch((error) => {
@@ -393,5 +386,4 @@
     </script>
     <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=maps,marker&v=beta" defer></script>-->
     <script src="../js/index.js" type="text/javascript"></script>
-
 </body>

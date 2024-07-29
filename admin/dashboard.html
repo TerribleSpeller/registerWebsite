@@ -390,16 +390,16 @@
                 const scanPath = 'scanner/' + sanitizedEmail;
                 const adminRef = ref(database, adminPath);
                 const scanRef = ref(database, scanPath);
-                console.log(adminPath)
+                /* console.log(adminPath)
                 console.log(scanPath)
                 console.log(adminRef)
-                console.log(scanRef)
+                console.log(scanRef) */
 
                 try {
        
                     const [snapshot, snapshotScan] = await Promise.all([get(adminRef), get(scanRef)]);
-                    console.log(snapshot.exists())
-                    console.log(snapshotScan.exists())
+                    /*console.log(snapshot.exists())
+                    console.log(snapshotScan.exists())*/
 
                     if (snapshot.exists()) {
                         const dataRef = ref(database, 'guests');
@@ -501,7 +501,7 @@
         }
     </script>
     <script  type="module">
-        import { getDatabase, ref, onValue, set } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
+        import { getDatabase, ref, onValue, set, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         import { auth } from '../firebase-config.js'; //REMEMEBR 
         function domReady(fn) {
             if (
@@ -513,12 +513,36 @@
                 document.addEventListener("DOMContentLoaded", fn);
             }
         }
+        const sanitizeEmail = (email) => {
+            return email.replace(/\.com$/, ''); // Remove ".com" from the end
+        };
+ 
+
         
         domReady(function () {
-            function onScanSuccess(decodeText, decodeResult) {
+            const database = getDatabase();
+            async function onScanSuccess(decodeText, decodeResult) {
+                const email = auth.currentUser.email;
+                const sanitizedEmail = sanitizeEmail(email);
+                const scanPath = 'scanner/' + sanitizedEmail;
+                const scanRef = ref(database, scanPath);
+                var scanner = false;
+        
+                try {
+                    const snapshotScan = await get(scanRef);
+                    if (snapshotScan.exists()) {
+                        //console.log("Scanning True!")
+                        scanner = true;
+                    }
+                } catch (error) {
+                    console.error("Error fetching data: ", error);
+                    //window.location.href = '../index.html'; // Redirect to login page on error
+                }
+                //
                 document.getElementById('id').innerText = decodeText;
-                const database = getDatabase();
+               
                 const dataRef = ref(database, 'guests/' + decodeText);
+                console.log(dataRef)
                 onValue(dataRef, (snapshot) => {
                 const readData = snapshot.val();
                 console.log(readData)
@@ -529,7 +553,25 @@
                 readData.attending = true;
                 set(ref(database, 'guests/' + document.getElementById('id').innerText), readData);
                 alert("Marked as attending!");
-                });
+                if (scanner) {
+                    const dataTableBody = document.getElementById('data-table').querySelector('tbody');
+                    const existingRow = dataTableBody.querySelector(`tr[data-id="${decodeText}"]`);
+
+                    if (!existingRow) {
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td>${decodeText}</td>
+                            <td>${readData.name}</td>
+                            <td>${readData.company}</td>
+                            <td>${readData.email}</td>
+                            <td>${readData.phoneno}</td>
+                            <td>Yes</td>
+                        `;
+                    }
+
+                   
+                    dataTableBody.appendChild(newRow);                }
+            });
             }
         
             let htmlscanner = new Html5QrcodeScanner(

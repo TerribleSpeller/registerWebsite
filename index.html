@@ -403,7 +403,7 @@
         import { getDatabase, ref, set, get, query, orderByChild, equalTo, child } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
         import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
         import { getStorage, ref as storageRef, uploadString, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js';
-        document.getElementById('submitButton').addEventListener('click', async  (event) => {
+        document.getElementById('submitButton').addEventListener('click', async (event) => {
             event.preventDefault();
             var name = document.getElementById('register_fullName').value;
             var email = document.getElementById('register_email').value;
@@ -429,27 +429,29 @@
             }
             var qrContent = id.toString();
             document.getElementById("qr-code").innerHTML = "";
+            var foundCopyEmail = false;
+            var foundCopyPhoneNo = false;
             async function findGuestByEmail(email) {
                 const dbRef = ref(database);
-                try {
-                  const snapshot = await get(child(dbRef, 'guests'));
-                  if (snapshot.exists()) {
+                const snapshot = await get(child(dbRef, 'guests'));
+                console.log(snapshot)
+                if (snapshot.exists()) {
                     let found = false;
                     snapshot.forEach((childSnapshot) => {
-                      const guest = childSnapshot.val();
-                      if (guest.email === email) {
-                        found = true;
-                        return true; // Exit the loop early
-                      }
+                        const guest = childSnapshot.val();
+                        if (guest.email === email) {
+                            found = true;
+                            foundCopyEmail = true;
+                            return true; 
+                        }
                     });
                     if (!found) {
+                        foundCopyEmail = false;
                       return false;
                     }
-                  } else {
-                    //console.log('No data available');
-                  }
-                } catch (error) {
-                  console.error('Error getting data:', error);
+                } else {
+                    console.log('No data available');
+                    return false;
                 }
               }
             async function findGuestByPhone(phone) {
@@ -462,10 +464,12 @@
                       const guest = childSnapshot.val();
                       if (guest.phoneno === phone) {
                         found = true;
+                        foundCopyPhoneNo = true;
                         return true; // Exit the loop early
                       }
                     });
                     if (!found) {
+                      foundCopyPhoneNo = false;
                       return false;
                     }
                   } else {
@@ -475,8 +479,10 @@
                   console.error('Error getting data:', error);
                 }
               }
-            if ( findGuestByEmail(email) ||  findGuestByPhone(phone)) {
-                if ( findGuestByEmail(email)) {
+            const isUsedEmail = await findGuestByEmail(email);
+            const isUsedPhone = await findGuestByPhone(phone);
+            if (foundCopyEmail || foundCopyPhoneNo) {
+                if (foundCopyEmail) {
                     alert('Email already exists. Please use a different one.');
                 } else {
                     alert('Phone number already exists. Please use a different one.');
@@ -504,7 +510,6 @@
                     }
                 }, 1000); // Delay to ensure QR code generation
             }
-            
         });
     </script>
     <script type="module">
@@ -528,10 +533,36 @@
         const database = getDatabase(app);
 
         document.getElementById('submitButton').addEventListener('click', async (event) => {
-        event.preventDefault();
+            event.preventDefault();
             const email = document.getElementById('register_email').value;
             const password = document.getElementById('register_password').value;
+            const phone = document.getElementById('register_phone').value.toString();
+            var foundCopyEmail = false;
+            var foundCopyPhoneNo = false;
             async function findGuestByEmail(email) {
+                const dbRef = ref(database);
+                const snapshot = await get(child(dbRef, 'guests'));
+                console.log(snapshot)
+                if (snapshot.exists()) {
+                    let found = false;
+                    snapshot.forEach((childSnapshot) => {
+                        const guest = childSnapshot.val();
+                        if (guest.email === email) {
+                            found = true;
+                            foundCopyEmail = true;
+                            return true; 
+                        }
+                    });
+                    if (!found) {
+                        foundCopyEmail = false;
+                      return false;
+                    }
+                } else {
+                    console.log('No data available');
+                    return false;
+                }
+              }
+            async function findGuestByPhone(phone) {
                 const dbRef = ref(database);
                 try {
                   const snapshot = await get(child(dbRef, 'guests'));
@@ -539,12 +570,14 @@
                     let found = false;
                     snapshot.forEach((childSnapshot) => {
                       const guest = childSnapshot.val();
-                      if (guest.email === email) {
+                      if (guest.phoneno === phone) {
                         found = true;
+                        foundCopyPhoneNo = true;
                         return true; // Exit the loop early
                       }
                     });
                     if (!found) {
+                      foundCopyPhoneNo = false;
                       return false;
                     }
                   } else {
@@ -554,7 +587,9 @@
                   console.error('Error getting data:', error);
                 }
               }
-            if(  findGuestByEmail(email)){
+            const isUsedEmail = await findGuestByEmail(email);
+            const isUsedPhone = await findGuestByPhone(phone);
+            if(foundCopyEmail || foundCopyPhoneNo){
                 //console.log('Email already exists. Please use a different one.');
             } else {
                 try {

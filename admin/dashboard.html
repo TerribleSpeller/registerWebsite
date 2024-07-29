@@ -124,7 +124,6 @@
                             <span>Company: </span><span id="got-company"></span>
                         </div>
                         <div class="p-2">
-                            <button id="mark">Mark as Attending</button>
                         </div>
                     </div>
                 </div>
@@ -477,6 +476,9 @@
                 document.getElementById('got-email').innerText = readData.email;
                 document.getElementById('got-no').innerText = readData.phoneno;
                 document.getElementById('got-company').innerText = readData.company;
+                readData.attending = true;
+                set(ref(database, 'guests/' + document.getElementById('id').innerText), readData);
+                alert("Marked as attending!");
                 });
             }
         
@@ -487,7 +489,7 @@
             htmlscanner.render(onScanSuccess);
         });
 
-        document.getElementById('mark').addEventListener('click', () => {
+        /*document.getElementById('mark').addEventListener('click', () => {
             const database = getDatabase();
             const dataRef = ref(database, 'guests/' + document.getElementById('id').innerText);
             onValue(dataRef, (snapshot) => {
@@ -496,7 +498,7 @@
                 set(ref(database, 'guests/' + document.getElementById('id').innerText), readData);
             });
             alert("Marked as attending!");
-        });
+        });*/
         
     </script>
 </body>

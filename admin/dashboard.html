@@ -391,7 +391,7 @@
         buttonAdder.addEventListener('click', function (event) {
             let table = document.getElementById('data-table');
             let rows = table.rows;
-            for (let i = 1; i < rows.length; i++) {
+            for (let i = 2; i < rows.length; i++) {
                 let cols = rows[i].cells;
                 let lastCol = rows[i]['cells'][cols.length - 1];
                 let button = document.createElement('button');

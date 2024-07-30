@@ -19,6 +19,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js"></script>
+
     <!--Yoinked-->
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no">
 </header>
@@ -427,6 +429,9 @@
             </div>
         </div>
     </div>
+    <script type="module">
+
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             function isMobileDevice() {
@@ -439,6 +444,8 @@
                 window.location.href = './pages/error.html';
             }
         });
+
+        
     </script>
 
     <script type="module">
@@ -454,6 +461,17 @@
         const auth = getAuth(app);
         const database = getDatabase(app); //Error occurs if you import it from fire-base.config
         const storage = getStorage();
+
+        import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js';
+
+        // For detecting!
+        const analytics = getAnalytics();
+        function isMobileDevice() {
+            // Check if the user agent string contains "Mobi" or "Android"
+            return /Mobi|Android/i.test(navigator.userAgent);
+        }
+        logEvent(analytics, 'user_platform', { platform: isMobileDevice() ? 'Mobile' : 'Web' });
+
         document.getElementById('submitButton').addEventListener('click', async (event) => {
             event.preventDefault();
         

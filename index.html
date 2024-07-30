@@ -448,7 +448,6 @@
             async function findGuestByEmail(email) {
                 const dbRef = ref(database);
                 const snapshot = await get(child(dbRef, 'guests'));
-                console.log(snapshot)
                 if (snapshot.exists()) {
                     let found = false;
                     snapshot.forEach((childSnapshot) => {
@@ -464,7 +463,7 @@
                       return false;
                     }
                 } else {
-                    console.log('No data available');
+                    // console.log('No data available');
                     return false;
                 }
               }
@@ -519,7 +518,6 @@
                         await uploadString(qrCodeStorageRef, qrCodeDataURL, 'data_url');
                         const qrCodeURL = await getDownloadURL(qrCodeStorageRef);
                         data.qrCodeURL = qrCodeURL;
-                        console.log(data)
                         await set(ref(database, `guests/${id}`), data);
                         alert('Thank you for your RSVP. Your QR code is ready for download.');
                     } catch (error) {
@@ -549,7 +547,7 @@
             async function findGuestByEmail(email) {
                 const dbRef = ref(database);
                 const snapshot = await get(child(dbRef, 'guests'));
-                console.log(snapshot)
+                //console.log(snapshot)
                 if (snapshot.exists()) {
                     let found = false;
                     snapshot.forEach((childSnapshot) => {
@@ -592,7 +590,7 @@
                   }
                 } catch (error) {
                   console.error('Error getting data:', error);
-                  alert(error)
+                  alert('Error getting data:', error)
                 }
               }
             const isUsedEmail = await findGuestByEmail(email);
@@ -605,7 +603,7 @@
                     alert('Sign up successful!');
                 } catch (error) {
                     console.log(error);
-                    alert(error)
+                    alert('Error getting data:', error)
                 }
             }
         });

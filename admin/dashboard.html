@@ -37,34 +37,33 @@
         }
     </style>
     <script type="module">
-        import { auth } from '../firebase-config.js'; //REMEMEBR TO DIRECT IT PROPERLY!
+        /*import { auth, firebaseConfig} from '../firebase-config.js'; //REMEMEBR TO DIRECT IT PROPERLY!
         import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
         import { getDatabase, ref, onValue, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         window.ref = ref
-        window.database = getDatabase();
+        window.database = getDatabase();*/
+        /*
+        import { auth, firebaseConfig} from '../firebase-config.js'; //REMEMEBR TO DIRECT IT PROPERLY!
+        import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
+        import { getDatabase, ref, onValue, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
+ 
+
+        const app2 = initializeApp(firebaseConfig);
+        const database2 = getDatabase(app2);
+    
+        export async function removeGuest(idTest) {
+          try {
+            const guestRef = ref(database2, 'guests/' + idTest);
+            await guestRef.remove();
+            console.log('Guest removed successfully');
+          } catch (error) {
+            console.error('Error removing guest:', error);
+          }
+        }*/
 
     </script>
-    <script>
-        async function sayHi(rowIdx) {
-            let table = document.getElementById('data-table');
-            let rows = table.rows;
-            // Extract first & last Name
-            let firstName = rows[rowIdx]['cells'][0].innerText;
-            let lastName = rows[rowIdx]['cells'][1].innerText;
-            alert(`Goodbye ${firstName} ${lastName}`);
-            if (confirm('Are you sure you want to delete this entry?')) {
-                try {
-                    let id = rows[rowIdx].getAttribute('data-id');
-
-                    console.log(id)
-                    await window.ref(window.database, 'guests/' + id).remove();
-                    alert('Entry deleted successfully');
-                    document.querySelector(`tr[data-id="${id}"]`).remove();
-                } catch (error) {
-                    console.error('Error deleting entry:', error);
-                }
-            }
-        }
+    <script src="../js/deleteRow.js"></script>
+    <script type="module">
     </script>
 
 
@@ -168,7 +167,6 @@
         <!--The QR Code Scripts-->
         <script src="https://unpkg.com/html5-qrcode">
         </script>
-        <script src="script.js"></script>
         <div class="container mb-5">
             <h2>Guest List</h2>
             <button id="export">Export to Excel</button>
@@ -409,6 +407,36 @@
     </div>
 
     <script type="module">
+        // DELETE FUNCTION
+        import { removeGuest } from '../js/deleteRow.js';
+
+        window.sayHi = async function(rowIdx) {
+           let table = document.getElementById('data-table');
+           let rows = table.rows;
+           // Extract first & last Name
+           let firstName = rows[rowIdx]['cells'][0].innerText;
+           let lastName = rows[rowIdx]['cells'][1].innerText;
+           let idTest =  rows[rowIdx]['cells'][0].innerText;
+
+           alert(`Goodbye ${firstName} ${lastName}, with ID of ${idTest}`);
+
+           if (confirm('Are you sure you want to delete this entry?')) {
+               removeGuest(idTest)
+
+               /*
+               try {
+
+                   console.log(idTest)
+                   await window.ref(window.database, 'guests/' + idTest).remove();
+                   alert('Entry deleted successfully');
+                   document.querySelector(`tr[data-id="${idTest}"]`).remove();
+               } catch (error) {
+                   console.error('Error deleting entry:', error);
+               }
+                   */
+           }
+       }
+
         let buttonAdder = document.getElementById('edit');
         // Fires on button click
         buttonAdder.addEventListener('click', function (event) {
@@ -422,7 +450,7 @@
                 let button = document.createElement('button');
                 button.innerText = 'View';
                 // Attach sayHi() function to 'onclick' attribute & pass row index
-                button.setAttribute('onclick', `sayHi(${i})`);   // modified
+                button.setAttribute('onclick', `window.sayHi(${i})`);   // modified
                 // Append the button to the last column
                 lastCol.appendChild(button);
             }

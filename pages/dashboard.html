@@ -359,6 +359,8 @@
         import { auth } from '../firebase-config.js'; // Ensure this path is correct
         import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
         import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
+        import { goOffline } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
+
 
         const database = getDatabase();
 
@@ -410,6 +412,13 @@
                 qrCodeImg.style.display = 'block'; // Make sure the image is visible
             }
             // Display additional user data as needed
+
+            // Add a delay before disconnecting from the database
+            setTimeout(() => {
+                goOffline(database);
+                console.log('Disconnected from the database');
+            }, 5000); // 5-second delay
+                console.log('Disconnected from the database');
         }
 
         document.getElementById('logout').addEventListener('click', async () => {

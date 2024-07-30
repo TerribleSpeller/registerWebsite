@@ -25,4 +25,4 @@ const auth = getAuth(app);
 const database = getDatabase(app);
 
 // Export the initialized services
-export { app, auth, database };
+export { app, auth, database, firebaseConfig };

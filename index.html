@@ -523,6 +523,7 @@
                         await uploadString(qrCodeStorageRef, qrCodeDataURL, 'data_url');
                         const qrCodeURL = await getDownloadURL(qrCodeStorageRef);
                         data.qrCodeURL = qrCodeURL;
+                        console.log(data)
                         await set(ref(database, `guests/${id}`), data);
                         alert('Thank you for your RSVP. Your QR code is ready for download.');
                     } catch (error) {

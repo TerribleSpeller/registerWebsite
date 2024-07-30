@@ -4,6 +4,8 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
 import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
+
 
 
 // Firebase configuration
@@ -23,6 +25,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
+//const storage = getStorage();
 
-// Export the initialized services
-export { app, auth, database, firebaseConfig };
+export { app, auth, database, firebaseConfig};

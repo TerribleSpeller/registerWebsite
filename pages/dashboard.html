@@ -125,6 +125,116 @@
                 </div>
             </div>
         </div>
+        <!--TODO: ADD UPDATE DATA SECTION-->
+        
+        <div class="d-flex flex-column container mt-5">
+            <div class="pt-5 flex-fill">
+                <h3>Update your data</h3>
+            </div>
+            <div class="pt-2 flex-fill">
+                <div id="user-info">Loading...</div>
+            </div>
+            <div class="border border-primary-subtle">
+                <div class="d-flex flex-column p-3">
+                    <div id="qr-code-container px-auto flex-fill" style="width: 100%">
+                        <center><img id="qr-code-img" alt="QR Code" style="display:none;" /></center>
+                    </div>
+                    <div class="d-flex flex-column flex-fill" style="width: 100%">
+                        <form class="formregis ant-form ant-form-horizontal" id="user-form">
+                            <div class="ant-row" style="margin-left: -7.5px; margin-right: -7.5px;">
+                                <div class="ant-col ant-col-lg-12"
+                                    style="padding-left: 7.5px; padding-right: 7.5px;">
+                                    <div class="ant-row ant-form-item">
+                                        <div class="ant-col ant-form-item-control-wrapper">
+                                            <div class="ant-form-item-control"><span
+                                                    class="ant-form-item-children"><input
+                                                        placeholder="Full Name" type="text" autocomplete="off"
+                                                        data-__meta="[object Object]"
+                                                        data-__field="[object Object]" id="register_fullName"
+                                                        class="ant-input" required></span><!----></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ant-col ant-col-lg-12"
+                                    style="padding-left: 7.5px; padding-right: 7.5px;">
+                                    <div class="ant-row ant-form-item">
+                                        <div class="ant-col ant-form-item-control-wrapper">
+                                            <div class="ant-form-item-control"><span
+                                                    class="ant-form-item-children"><input
+                                                        placeholder="Email Address" type="email"
+                                                        autocomplete="off" data-__meta="[object Object]"
+                                                        data-__field="[object Object]" id="register_email"
+                                                        class="ant-input" required></span><!----></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ant-col ant-col-lg-12" style="padding-left: 7.5px; padding-right: 7.5px;">
+                                    <div class="ant-row ant-form-item">
+                                        <div class="ant-col ant-form-item-control-wrapper">
+                                            <div class="ant-form-item-control">
+                                                <span class="ant-form-item-children">
+                                                    <select id="register_category" class="ant-input" required>
+                                                        <option value="" disabled selected>Select a Company Category</option>
+                                                        <option value="Kantor Agent">Kantor Agent</option>
+                                                        <option value="Bank">Bank</option>
+                                                        <option value="Others">Others</option>
+                                                    </select>
+                                                </span>
+                                                <!---->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ant-col ant-col-lg-12"
+                                style="padding-left: 7.5px; padding-right: 7.5px;">
+                                <div class="ant-row ant-form-item">
+                                    <div class="ant-col ant-form-item-control-wrapper">
+                                        <div class="ant-form-item-control"><span
+                                                class="ant-form-item-children"><input placeholder="Company"
+                                                    type="text" autocomplete="off"
+                                                    data-__meta="[object Object]"
+                                                    data-__field="[object Object]" id="register_company"
+                                                    class="ant-input" required></span><!----></div>
+                                    </div>
+                                </div>
+                            </div> 
+                                <div class="ant-col ant-col-lg-12"
+                                    style="padding-left: 7.5px; padding-right: 7.5px;">
+                                    <div class="ant-row ant-form-item">
+                                        <div class="ant-col ant-form-item-control-wrapper">
+                                            <div class="ant-form-item-control"><span
+                                                    class="ant-form-item-children"><input
+                                                        placeholder="Phone Number" type="tel"
+                                                        autocomplete="off" data-__meta="[object Object]"
+                                                        data-__field="[object Object]" id="register_phone"
+                                                        class="ant-input" required></span><!----></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ant-col ant-col-lg-12" style="padding-left: 7.5px; padding-right: 7.5px;">
+                                    <div class="ant-row ant-form-item">
+                                        <div class="ant-col ant-form-item-control-wrapper">
+                                            <div class="ant-form-item-control">
+                                                <span class="ant-form-item-children">
+                                                    <input placeholder="Create Password" type="password" autocomplete="off" id="register_password" class="ant-input" required>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ant-col ant-col-lg-24"
+                                    style="padding-left: 7.5px; padding-right: 7.5px;"><button 
+                                        class="login-form-button ant-btn ant-btn-link" id="submitButton"><span>Confirm</span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <div id="buffer-text" class="pb-5">
             <span></span>
         </div>
@@ -395,7 +505,7 @@
                 qrCodeImg.style.display = 'block'; 
             }
             setTimeout(() => {
-                goOffline(database);
+                //goOffline(database);
                 console.log('Disconnected from the database');
             }, 5000); // 5-second delay
                 console.log('Disconnected from the database');
@@ -406,6 +516,7 @@
         document.getElementById('logout2').addEventListener('click', async () => {
             signout()
         });
+        /*Update Data part*/
     </script>
     <script src="../js/index.js" type="text/javascript"></script>
 </body>

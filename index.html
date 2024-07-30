@@ -422,7 +422,7 @@
         document.getElementById('submitButton').addEventListener('click', async (event) => {
             event.preventDefault();
             var name = document.getElementById('register_fullName').value;
-            var email = document.getElementById('register_email').valuetoLowerCase(); //Needs to be done,  because realtime database is sensitive, but the accountset up sets it all to smaller case. 
+            var email = document.getElementById('register_email').value.toLowerCase(); //Needs to be done,  because realtime database is sensitive, but the accountset up sets it all to smaller case. 
             var company = document.getElementById('register_company').value;
             var phone = document.getElementById('register_phone').value.toString();
             var password = document.getElementById("register_password").value;

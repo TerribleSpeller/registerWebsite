@@ -28,7 +28,6 @@
             width: 100%;
             border-collapse: collapse;
         }
-
         th,
         td {
             border: 1px solid black;
@@ -37,7 +36,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div id="Header">
@@ -86,11 +84,9 @@
                                             <li class="nav-item">
                                                 <div> <a class="nav-link fs-5" id="logout2">Logout</a> </div>
                                             </li>
-
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -127,16 +123,11 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
-
         </div>
-
         <div id="buffer-text" class="pb-5">
             <span></span>
         </div>
-
-
     </div>
     <div id="footer" class="et_builder_inner_content et_pb_gutters3">
         <div class="et_pb_section et_pb_section_0_tb_footer et_pb_with_background et_section_regular">
@@ -353,17 +344,13 @@
             </div>
         </div>
     </div>
-
- 
     <script type="module">
-        import { auth } from '../firebase-config.js'; // Ensure this path is correct
-        import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
+        import { auth } from '../js/firebase-config.js'; // Ensure this path is correct
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
         import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         import { goOffline } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
-
-
+        import { signout } from '../js/signout.js';
         const database = getDatabase();
-
         document.addEventListener('DOMContentLoaded', () => {
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
@@ -373,7 +360,6 @@
                 }
             });
         });
-
         async function checkUserInDatabase(email) {
             const usersRef = ref(database, 'guests');
             try {
@@ -387,7 +373,6 @@
                         displayUserData(userData);
                     }
                 });
-
                 if (!found) {
                     document.getElementById('user-info').innerHTML = 'No data found for this user';
                 }
@@ -396,7 +381,6 @@
                 alert(error)
             }
         }
-
         function displayUserData(userData) {
             console.log('User data:', userData);
             const userInfoDiv = document.getElementById('user-info');
@@ -409,38 +393,21 @@
             if (userData.qrCodeURL) {
                 const qrCodeImg = document.getElementById('qr-code-img');
                 qrCodeImg.src = userData.qrCodeURL;
-                qrCodeImg.style.display = 'block'; // Make sure the image is visible
+                qrCodeImg.style.display = 'block'; 
             }
-            // Display additional user data as needed
-
-            // Add a delay before disconnecting from the database
             setTimeout(() => {
                 goOffline(database);
                 console.log('Disconnected from the database');
             }, 5000); // 5-second delay
                 console.log('Disconnected from the database');
         }
-
         document.getElementById('logout').addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-                window.location.href = '../index.html';
-            } catch (error) {
-                console.error('Logout error:', error);
-                alert(error)
-            }
+            signout()
         });
         document.getElementById('logout2').addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-                window.location.href = '../index.html';
-            } catch (error) {
-                console.error('Logout error:', error);
-                alert(error)
-            }
+            signout()
         });
     </script>
     <script src="../js/index.js" type="text/javascript"></script>
-
 </body>
 </html>

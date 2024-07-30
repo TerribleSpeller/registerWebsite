@@ -1,5 +1,5 @@
 
-import { auth, firebaseConfig} from '../firebase-config.js'; //REMEMEBR TO DIRECT IT PROPERLY!
+import { auth, firebaseConfig} from './firebase-config.js'; //REMEMEBR TO DIRECT IT PROPERLY!
 import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js';
 import { getDatabase, ref, remove } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';

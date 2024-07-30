@@ -427,6 +427,19 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            function isMobileDevice() {
+                // Check if the user agent string contains "Mobi" or "Android"
+                return /Mobi|Android/i.test(navigator.userAgent);
+            }
+
+            if (isMobileDevice()) {
+                // Redirect to a mobile-specific URL or error page
+                window.location.href = './pages/error.html';
+            }
+        });
+    </script>
 
     <script type="module">
         //import { app, auth, database } from './js/firebase-config.js';

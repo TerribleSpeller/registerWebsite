@@ -181,7 +181,7 @@
                                         <div class="ant-col ant-col-lg-24"
                                             style="padding-left: 7.5px; padding-right: 7.5px;"><button
                                                 class="login-form-button ant-btn ant-btn-link"
-                                                id="submitButton"><span>Confirm</span></button>
+                                                id="submitButton"><span id="submitButtonText">Confirm</span></button>
                                         </div>
                                     </div>
                                 </form>
@@ -441,7 +441,7 @@
 
             if (isMobileDevice()) {
                 // Redirect to a mobile-specific URL or error page
-                window.location.href = './pages/error.html';
+                //window.location.href = './pages/error.html';
             }
         });
 
@@ -450,7 +450,7 @@
 
     <script type="module">
         //import { app, auth, database } from './js/firebase-config.js';
-        import { ref, set, get, child } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+        import { ref, set, get, child, update } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
         // import { createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
         import { getDownloadURL, ref as storageRef, uploadString, getStorage } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js';
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
@@ -474,7 +474,6 @@
 
         document.getElementById('submitButton').addEventListener('click', async (event) => {
             event.preventDefault();
-        
             const name = document.getElementById('register_fullName').value;
             const email = document.getElementById('register_email').value.toLowerCase();
             const company = document.getElementById('register_company').value;
@@ -483,6 +482,12 @@
             const category = document.getElementById('register_category').value;
             const id = Date.now();
             const data = { name, email, id, category, company, phoneno: phone, attending: false };
+            //Disable Button
+            var button = document.getElementById('submitButton');
+            button.disable = true 
+            document.getElementById('submitButtonText').innerText = 'Processing...';
+
+
             const qrContent = id.toString();
             let qrCode;
         
@@ -532,27 +537,33 @@
         
                 try {
                     await createUserWithEmailAndPassword(auth, email, password);
+                    await set(ref(database, `guests/${id}`), data);
+
                     alert('Sign up successful!');
-        
+                    logEvent(analytics, 'user_platform',"Successful Signup");
+
                     setTimeout(async () => {
                         const qrCodeElement = document.getElementById('qr-code');
                         const qrCodeDataURL = qrCodeElement.querySelector('img').src;
                         const qrCodeStorageRef = storageRef(storage, `qr_codes/${id}.png`);
-                        
                         try {
                             await uploadString(qrCodeStorageRef, qrCodeDataURL, 'data_url');
                             const qrCodeURL = await getDownloadURL(qrCodeStorageRef);
                             data.qrCodeURL = qrCodeURL;
-                            await set(ref(database, `guests/${id}`), data);
+                            await update(ref(database, `guests/${id}`), {qrCodeURL: qrCodeDataURL});
                             alert('Thank you for your RSVP. Your QR code is ready for download.');
                         } catch (error) {
+                            logEvent(analytics, 'errors',"QR Code Failure");
                             console.error('Error uploading QR code:', error);
-                            alert('Error uploading QR code:', error);
+                            //alert('Error uploading QR code:', error);
                         }
-                    }, 1000); // Delay to ensure QR code generation
+                    }, 4000); // Delay to ensure QR code generation
+                    document.getElementById('submitButtonText').innerText = 'Submit';
+
                 } catch (error) {
                     console.error('Error creating user:', error);
                     alert('Error creating user:', error);
+                    alert('Please try again later!')
                 }
             }
         });

@@ -603,7 +603,7 @@
                         height: 256,
                         colorDark: '#000000',
                         colorLight: '#ffffff',
-                        correctLevel: QRCode.CorrectLevel.H,
+                        correctLevel: 2,
                     });
                     setTimeout(() => {
                         const qrCodeImg = qrCode._oDrawing._elImage;
@@ -645,7 +645,7 @@
                 const qrCodeStorageRef = storageRef(storage, `qr_codes/${userID2}.png`);
                 await uploadBytes(qrCodeStorageRef, qrCodeBlob);
                 const qrCodeURL = await getDownloadURL(qrCodeStorageRef);
-                await update(ref(database, `guests/${userID2}`), { qrCodeURL: qrCodeURL });
+                await update(ref(database2, `guests/${userID2}`), { qrCodeURL: qrCodeURL });
                 const qrCodeImgElement = document.getElementById('qr-code-img');
                 qrCodeImgElement.src = qrCodeDataURL;
                 qrCodeImgElement.style.display = 'block';

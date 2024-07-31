@@ -473,6 +473,7 @@
 
         document.getElementById('submitButton').addEventListener('click', async (event) => {
             event.preventDefault();
+            document.getElementById('qr-code').innerHTML = ''
             const name = document.getElementById('register_fullName').value;
             const email = document.getElementById('register_email').value.toLowerCase();
             const company = document.getElementById('register_company').value;
@@ -539,6 +540,12 @@
                         await set(ref(database, `guests/${id}`), data);
                         alert('Sign up successful!');
                         logEvent(analytics, 'user_platform',{event_category: 'engagement',event_label: 'Successful Signup'});
+                        document.getElementById('register_fullName').value = '';
+                        document.getElementById('register_email').value= '';
+                        document.getElementById('register_company').value= '';
+                        document.getElementById('register_phone').value= '';
+                        document.getElementById('register_password').value= '';
+                        document.getElementById('register_category').value= '';
                     } catch (error) {
                         logEvent(analytics, 'errors', {event_category: 'failure',  event_label: error});
                         alert("An Error has occured, please sign in")

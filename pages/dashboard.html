@@ -21,6 +21,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+
     
     <!--Yoinked-->
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no">
@@ -584,7 +586,16 @@
         document.getElementById('regenButton').addEventListener('click', async () => {
             const userID2 = document.getElementById('id-placeholder').innerHTML;
             console.log(userID2);
-            function generateQrCode(qrContent) {
+            async function generateQrCode(qrContent) {
+                try {
+                    return await generateQrCodePrimary(qrContent);
+                } catch (error) {
+                    console.error('Primary QR code generation failed:', error);
+                    return await generateQrCodeFallback(qrContent);
+                }
+            }
+    
+            function generateQrCodePrimary(qrContent) {
                 return new Promise((resolve, reject) => {
                     const qrCode = new QRCode("qr-code-img", {
                         text: qrContent,
@@ -612,6 +623,19 @@
                             reject(new Error('Failed to generate QR code'));
                         }
                     }, 2000); // Increased timeout to ensure QR code is generated
+                });
+            }
+    
+            function generateQrCodeFallback(qrContent) {
+                return new Promise((resolve, reject) => {
+                    QRCode.toDataURL(qrContent, { width: 256, height: 256 }, (error, url) => {
+                        if (error) {
+                            reject(new Error('Fallback QR code generation failed: ' + error.message));
+                            alert('Fallback Error generating QR code: ' + error.message);
+                        } else {
+                            resolve(url);
+                        }
+                    });
                 });
             }
     

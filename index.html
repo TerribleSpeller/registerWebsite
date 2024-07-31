@@ -564,7 +564,7 @@
                     }, 4000); // Delay to ensure QR code generation
                     document.getElementById('submitButtonText').innerText = 'Submit';
                 } catch (error) {
-                    logEvent(analytics, 'errors', {event_category: 'failure',  event_label: 'Signup Failure'});
+                    logEvent(analytics, 'errors', {event_category: 'failure',  event_label: 'Signup Failure', event_desc: error});
                     console.error('Error creating user:', error);
                     //alert('Error creating user:', error);
                     alert('Please try again later!')

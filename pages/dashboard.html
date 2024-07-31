@@ -16,7 +16,6 @@
     <!--Local Files -->
     <link rel="stylesheet" href="../css/register.css">
     <!-- For functions -->
-    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
@@ -603,11 +602,16 @@
                             canvas.height = qrCodeImg.height;
                             const ctx = canvas.getContext('2d');
                             ctx.drawImage(qrCodeImg, 0, 0);
-                            resolve(canvas.toDataURL('image/png'));
+                            const dataURL = canvas.toDataURL('image/png');
+                            if (dataURL.startsWith('data:image/png')) {
+                                resolve(dataURL);
+                            } else {
+                                reject(new Error('Failed to generate QR code as image'));
+                            }
                         } else {
                             reject(new Error('Failed to generate QR code'));
                         }
-                    }, 500); // Wait for QR code to be generated
+                    }, 2000); // Increased timeout to ensure QR code is generated
                 });
             }
         

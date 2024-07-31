@@ -571,14 +571,34 @@
                     }, 4000); // Delay to ensure QR code generation
                     document.getElementById('submitButtonText').innerText = 'Submit';
                 } catch (error) {
+                    handleAuthError(error);
                     logEvent(analytics, 'errors', {event_category: 'failure',  event_label: 'Signup Failure', event_desc: error});
-                    console.error('Error creating user:', error);
-                    alert('error');
+                    //console.error('Error creating user:', error);
+                    //alert('error');
                     //alert('Error creating user:', error);
                     alert('Please try again later!')
                 }
             }
         });
+
+        function handleAuthError(error) {
+            let errorMessage;
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    errorMessage = 'The email address is already in use by another account.';
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage = 'The email address is not valid.';
+                    break;
+                case 'auth/weak-password':
+                    errorMessage = 'The password is too weak.';
+                    break;
+                default:
+                    errorMessage = 'An unknown error occurred: ' + error.message;
+                    break;
+            }
+            alert(errorMessage);
+        }
         
         function generateQrCode(qrContent) {
             return new QRCode('qr-code', {

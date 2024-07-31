@@ -551,6 +551,7 @@
                             const qrCodeURL = await getDownloadURL(qrCodeStorageRef);
                             data.qrCodeURL = qrCodeURL;
                             await update(ref(database, `guests/${id}`), {qrCodeURL: qrCodeDataURL});
+                            logEvent(analytics, 'user_platform',"Successful Loaded");
                             alert('Thank you for your RSVP. Your QR code is ready for download.');
                         } catch (error) {
                             logEvent(analytics, 'errors',"QR Code Failure");

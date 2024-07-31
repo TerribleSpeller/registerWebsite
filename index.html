@@ -487,7 +487,6 @@
             button.disable = true 
             document.getElementById('submitButtonText').innerText = 'Processing...';
 
-
             const qrContent = id.toString();
             let qrCode;
         
@@ -540,7 +539,7 @@
                     await set(ref(database, `guests/${id}`), data);
 
                     alert('Sign up successful!');
-                    logEvent(analytics, 'user_platform',"Successful Signup");
+                    logEvent(analytics, 'user_platform',{event_category: 'engagement',event_label: 'Successful Signup'});
 
                     setTimeout(async () => {
                         const qrCodeElement = document.getElementById('qr-code');
@@ -551,19 +550,20 @@
                             const qrCodeURL = await getDownloadURL(qrCodeStorageRef);
                             data.qrCodeURL = qrCodeURL;
                             await update(ref(database, `guests/${id}`), {qrCodeURL: qrCodeDataURL});
-                            logEvent(analytics, 'user_platform',"Successful Loaded");
+                            logEvent(analytics, 'user_platform',{event_category: 'engagement',event_label: 'Successful Loading of QR'});
                             alert('Thank you for your RSVP. Your QR code is ready for download.');
                         } catch (error) {
-                            logEvent(analytics, 'errors',"QR Code Failure");
-                            console.error('Error uploading QR code:', error);
+                            logEvent(analytics, 'errors', {event_category: 'failure',  event_label: 'QR Code Failure'});
+                                console.error('Error uploading QR code:', error);
                             //alert('Error uploading QR code:', error);
                         }
                     }, 4000); // Delay to ensure QR code generation
                     document.getElementById('submitButtonText').innerText = 'Submit';
 
                 } catch (error) {
+                    logEvent(analytics, 'errors', {event_category: 'failure',  event_label: 'Signup Failure'});
                     console.error('Error creating user:', error);
-                    alert('Error creating user:', error);
+                    //alert('Error creating user:', error);
                     alert('Please try again later!')
                 }
             }

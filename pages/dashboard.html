@@ -103,11 +103,12 @@
             </div>
             <div class="border border-primary-subtle">
                 <div class="d-flex flex-row p-3">
-                    <div id="qr-code-container px-auto flex-fill" style="width: 60%">
+                    <div id="qr-code-container" class=" px-auto flex-fill" style="width: 60%">
                         <div>
                             <span id="qr-error-log"></span>
                             <center><img id="qr-code-img" alt="QR Code" style="display:none;" /></center>
-                            <button class="login-form-button ant-btn ant-btn-link" id="regenButton"><span>Regenerate QR Code</span></button></div>
+                            <button class="login-form-button ant-btn ant-btn-link" id="regenButton"><span>Regenerate QR Code</span></button>
+                        </div>
                     </div>
                     <div class="d-flex flex-column flex-fill" style="width: 30%">
                         <div class="p-2 flex-fill fs-3">
@@ -437,14 +438,16 @@
     <script type="module">
         import { auth } from '../js/firebase-config.js'; // Ensure this path is correct
         import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
-        import { getDatabase, ref, get, update } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
+        import { getDatabase, ref, get, set, update } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         import { goOffline } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         import { signout } from '../js/signout.js';
         const database = getDatabase();
+        var userEmail;
         var userID;
         document.addEventListener('DOMContentLoaded', () => {
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
+                    userEmail = user.email
                     await checkUserInDatabase(user.email);
                 } else {
                     document.getElementById('user-info').innerHTML = 'User not signed in';
@@ -466,21 +469,32 @@
                 });
                 if (!found) {
                     document.getElementById('user-info').innerHTML = 'No data found for this user';
+                    document.getElementById('email').innerHTML = `Email: ${email}`;
+                    //Protocol to create new node for them. BECAUSE Goddammit the internet SUCKS.
+                    const newId = Date.now();
+                    userID = newId;
+
+                    const data = { email: email, id: newId}
+                    await set(ref(database, `guests/${newId}`), data);
+                    console.log("New Child created")
+                    document.getElementById('id-placeholder').innerHTML = `${newId}`;
+
                 }
             } catch (error) {
+
                 console.error('Error fetching user data:', error);
                 alert(error)
             }
         }
         function displayUserData(userData) {
             const userInfoDiv = document.getElementById('user-info');
-            userInfoDiv.innerHTML = `<h2>Welcome, ${userData.name}</h2>`;
-            document.getElementById('name').innerHTML = `Name: ${userData.name}`;
-            document.getElementById('email').innerHTML = `Email: ${userData.email}`;
-            document.getElementById('phone').innerHTML = `Phone: ${userData.phoneno}`;
-            document.getElementById('category').innerHTML = `category: ${userData.category}`;
-            document.getElementById('company').innerHTML = `Company: ${userData.company}`;
-            document.getElementById('id-placeholder').innerHTML = `${userData.id}`;
+            if(userData.name) userInfoDiv.innerHTML = `<h2>Welcome, ${userData.name}</h2>`;
+            if(userData.name) document.getElementById('name').innerHTML = `Name: ${userData.name}`;
+            document.getElementById('email').innerHTML = `Email: ${userEmail}`;
+            if(userData.phoneno) document.getElementById('phone').innerHTML = `Phone: ${userData.phoneno}`;
+            if(userData.category) document.getElementById('category').innerHTML = `category: ${userData.category}`;
+            if(userData.company) document.getElementById('company').innerHTML = `Company: ${userData.company}`;
+            if(userData.id) document.getElementById('id-placeholder').innerHTML = `${userData.id}`;
 
             userID = userData.id;
             //console.log(userID)
@@ -563,18 +577,15 @@
         import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
         import { getDatabase, ref, get, update } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         import { getDownloadURL, ref as storageRef, uploadString, uploadBytes, getStorage } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-storage.js';
-
         const app = initializeApp(firebaseConfig);
         const database2 = getDatabase();
         const storage = getStorage(app);
-
-
         document.getElementById('regenButton').addEventListener('click', async () => {
             var userID2 = document.getElementById('id-placeholder').innerHTML;
             console.log(userID2)
             function generateQrCode(qrContent) {
                 return new Promise((resolve, reject) => {
-                    const qrCode = new QRCode(document.createElement('div'), {
+                    const qrCode = new QRCode("qr-code-img", {
                         text: qrContent,
                         width: 256,
                         height: 256,
@@ -604,8 +615,11 @@
                 const qrCodeStorageRef = storageRef(storage, `qr_codes/${userID2}.png`);
                 await uploadBytes(qrCodeStorageRef, qrCodeBlob);
                 const qrCodeURL = await getDownloadURL(qrCodeStorageRef);
-                alert(`Firing to ${userID2}`);
+                //alert(`Firing to ${userID2}`);
                 await update(ref(database2, `guests/${userID2}`), { qrCodeURL: qrCodeURL });
+                const qrCodeImgElement = document.getElementById('qr-code-img');
+                qrCodeImgElement.src = qrCodeDataURL;
+                qrCodeImgElement.style.display = 'block';
                 console.log('QR code URL updated successfully');
             } catch (error) {
                 console.error('Error generating or uploading QR code:', error);

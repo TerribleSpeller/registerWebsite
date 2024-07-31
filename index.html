@@ -536,11 +536,15 @@
         
                 try {
                     await createUserWithEmailAndPassword(auth, email, password);
-                    await set(ref(database, `guests/${id}`), data);
-
-                    alert('Sign up successful!');
-                    logEvent(analytics, 'user_platform',{event_category: 'engagement',event_label: 'Successful Signup'});
-
+                    try {
+                        await set(ref(database, `guests/${id}`), data);
+                        alert('Sign up successful!');
+                        logEvent(analytics, 'user_platform',{event_category: 'engagement',event_label: 'Successful Signup'});
+                    } catch (error) {
+                        logEvent(analytics, 'errors', {event_category: 'failure',  event_label: error});
+                        alert("An Error has occured, please sign in")
+                        window.location.href = './pages/login.html';
+                    }
                     setTimeout(async () => {
                         const qrCodeElement = document.getElementById('qr-code');
                         const qrCodeDataURL = qrCodeElement.querySelector('img').src;
@@ -559,7 +563,6 @@
                         }
                     }, 4000); // Delay to ensure QR code generation
                     document.getElementById('submitButtonText').innerText = 'Submit';
-
                 } catch (error) {
                     logEvent(analytics, 'errors', {event_category: 'failure',  event_label: 'Signup Failure'});
                     console.error('Error creating user:', error);

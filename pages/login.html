@@ -401,14 +401,15 @@
             signInWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
                     logEvent(analytics, 'SignIn Success', { event_category: 'success', event_label: 'Signin Success' });
-                    const adminRef = ref(database, 'admin/' + sanitizedEmail);
-                    const scanRef = ref(database, 'scanner/' + sanitizedEmail);
+
                     //const snapshot = await get(adminRef);
                     //const snapshotScan = await get(scanRef)
                     const result = sanitizedEmail.endsWith('wynyardregistration');
                     console.log("Staff account found")
                     //alert(sanitizedEmail)
                     if (result) {
+                        const adminRef = ref(database, 'admin/' + sanitizedEmail);
+                        const scanRef = ref(database, 'scanner/' + sanitizedEmail);
                         const snapshot = await get(adminRef);
                         const snapshotScan = await get(scanRef)
                         if (snapshot.exists() || snapshotScan.exists()) {

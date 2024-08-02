@@ -180,7 +180,7 @@
                                         <div class="ant-col ant-col-lg-24"
                                             style="padding-left: 7.5px; padding-right: 7.5px;"><button
                                                 class="login-form-button ant-btn ant-btn-link" id="submitButton" type="submit"><span
-                                                    id="submitButtonText">Confirm</span></button>
+                                                    id="submitButtonText">Submit</span></button>
                                         </div>
                                     </div>
                                 </form>
@@ -486,7 +486,10 @@
             const category = document.getElementById('register_category').value;
             
             if (!name || !email || !company || !phone || !password || !category) {
+                document.getElementById('submitButtonText').innerText = 'Submit';
                 alert('All fields are required.');
+                button.disable = false;
+
                 return; // Stops the execution of the rest of the code in this function
             }
 

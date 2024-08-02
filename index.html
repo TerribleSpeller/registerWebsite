@@ -531,7 +531,8 @@
                 button.disable = false;
             }
 
-            function generateQRCode() {
+            function generateQRCodeFunction() {
+                generateQrCode(qrContent);
                 document.getElementById('submitButtonText').innerText = 'Generating QR Code...';
                 setTimeout(async () => {
                     const qrCodeElement = document.getElementById('qr-code');
@@ -580,7 +581,7 @@
                         alert('Sign up successful!');
                         QrCodeValid = true;
                         logEvent(analytics, 'Successful Signup', { event_category: 'engagement', event_label: 'Successful Signup' });
-                        generateQRCode();
+                        generateQRCodeFunction();
 
                     } catch (error) {
                         logEvent(analytics, 'Firebase Data saving Error', { event_category: 'failure', event_label: error });
@@ -590,7 +591,7 @@
                         try {
                             await update(ref(database, `guests/${id}`), {}); 
                             QrCodeValid = true;
-                            generateQRCode();
+                            generateQRCodeFunction(); 
                         } catch(error) {
                             logEvent(analytics, 'Firebase Data - Backup Node Creation Failure', { event_category: 'failure', event_label: error });
                             //alert("An Error has occured, please sign in")

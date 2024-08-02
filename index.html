@@ -179,8 +179,8 @@
                                         </div>
                                         <div class="ant-col ant-col-lg-24"
                                             style="padding-left: 7.5px; padding-right: 7.5px;"><button
-                                                class="login-form-button ant-btn ant-btn-link"
-                                                id="submitButton"><span id="submitButtonText">Confirm</span></button>
+                                                class="login-form-button ant-btn ant-btn-link" id="submitButton"><span
+                                                    id="submitButtonText">Confirm</span></button>
                                         </div>
                                     </div>
                                 </form>
@@ -444,7 +444,7 @@
             }
         });
 
-        
+
     </script>
 
     <script type="module">
@@ -474,8 +474,9 @@
         document.getElementById('submitButton').addEventListener('click', async (event) => {
             event.preventDefault();
             var button = document.getElementById('submitButton');
-            button.disable = true 
-            document.getElementById('submitButtonText').innerText = 'Processing...';
+            let QrCodeValid = false;
+            button.disable = true
+            document.getElementById('submitButtonText').innerText = 'Saving...';
             document.getElementById('qr-code').innerHTML = ''
             const name = document.getElementById('register_fullName').value;
             const email = document.getElementById('register_email').value.toLowerCase();
@@ -485,12 +486,8 @@
             const category = document.getElementById('register_category').value;
             const id = Date.now();
             const data = { name, email, id, category, company, phoneno: phone, attending: false };
-            //Disable Button
-
-
             const qrContent = id.toString();
             let qrCode;
-        
             async function findGuestByEmail(email) {
                 try {
                     const dbRef = ref(database, 'guests');
@@ -506,7 +503,7 @@
                     return false;
                 }
             }
-        
+
             async function findGuestByPhone(phone) {
                 try {
                     const dbRef = ref(database, 'guests');
@@ -522,61 +519,92 @@
                     return false;
                 }
             }
-        
+
+            function clearInput() {
+                document.getElementById('register_fullName').value = '';
+                document.getElementById('register_email').value = '';
+                document.getElementById('register_company').value = '';
+                document.getElementById('register_phone').value = '';
+                document.getElementById('register_password').value = '';
+                document.getElementById('register_category').value = '';
+                document.getElementById('submitButtonText').innerText = 'Submit';
+                button.disable = false;
+            }
+
+            function generateQRCode() {
+                document.getElementById('submitButtonText').innerText = 'Generating QR Code...';
+                setTimeout(async () => {
+                    const qrCodeElement = document.getElementById('qr-code');
+                    const qrCodeDataURL = qrCodeElement.querySelector('img').src;
+                    const qrCodeStorageRef = storageRef(storage, `qr_codes/${id}.png`);
+                    try {
+                        await uploadString(qrCodeStorageRef, qrCodeDataURL, 'data_url');
+                        const qrCodeURL = await getDownloadURL(qrCodeStorageRef);
+                        data.qrCodeURL = qrCodeURL;
+                        await update(ref(database, `guests/${id}`), { qrCodeURL: qrCodeDataURL });
+                        logEvent(analytics, 'Successful QR Code Generation', { event_category: 'engagement', event_label: 'Successful Loading of QR' });
+                        alert('Thank you for your RSVP. Your QR code is ready for download.');
+                    } catch (error) {
+                        logEvent(analytics, 'QR Code Generation Error', { event_category: 'failure', event_label: 'QR Code Failure' });
+                        console.error('Error uploading QR code:', error);
+                        alert("QR Code generation failed. Please sign in with your account to try again.");
+                        clearInput();
+                        //alert('Error uploading QR code:', error);
+                    }
+                }, 5000);
+            }
+
             const isUsedEmail = await findGuestByEmail(email);
             const isUsedPhone = await findGuestByPhone(phone);
-        
+
             if (isUsedEmail || isUsedPhone) {
                 alert(isUsedEmail ? 'Email already exists. Please use a different one.' : 'Phone number already exists. Please use a different one.');
+                clearInput();
             } else {
                 if (!qrCode) {
-                    qrCode = generateQrCode(qrContent);
+                    //qrCode = generateQrCode(qrContent);
                 } else {
-                    qrCode.makeCode(qrContent);
+                    //qrCode.makeCode(qrContent);
                 }
-        
+
                 try {
                     await createUserWithEmailAndPassword(auth, email, password);
+
+                    const timeoutPromise = new Promise((_, reject) =>
+                        setTimeout(() => reject(new Error('Operation timed out')), 10000) //Wait for ten seconds
+                    ); //Time out race 
+
                     try {
-                        await set(ref(database, `guests/${id}`), data);
+                        //await update(ref(database, `guests/${id}`), {});
+                        await Promise.race([set(ref(database, `guests/${id}`), data), timeoutPromise]);
                         alert('Sign up successful!');
-                        logEvent(analytics, 'user_platform',{event_category: 'engagement',event_label: 'Successful Signup'});
-                        document.getElementById('register_fullName').value = '';
-                        document.getElementById('register_email').value= '';
-                        document.getElementById('register_company').value= '';
-                        document.getElementById('register_phone').value= '';
-                        document.getElementById('register_password').value= '';
-                        document.getElementById('register_category').value= '';
+                        QrCodeValid = true;
+                        logEvent(analytics, 'Successful Signup', { event_category: 'engagement', event_label: 'Successful Signup' });
+                        generateQRCode();
+
                     } catch (error) {
-                        logEvent(analytics, 'errors', {event_category: 'failure',  event_label: error});
-                        alert("An Error has occured, please sign in")
+                        logEvent(analytics, 'Firebase Data saving Error', { event_category: 'failure', event_label: error });
+                        //alert("An Error has occured, please sign in")
+                        clearInput();
                         window.location.href = './pages/login.html';
-                    }
-                    setTimeout(async () => {
-                        const qrCodeElement = document.getElementById('qr-code');
-                        const qrCodeDataURL = qrCodeElement.querySelector('img').src;
-                        const qrCodeStorageRef = storageRef(storage, `qr_codes/${id}.png`);
                         try {
-                            await uploadString(qrCodeStorageRef, qrCodeDataURL, 'data_url');
-                            const qrCodeURL = await getDownloadURL(qrCodeStorageRef);
-                            data.qrCodeURL = qrCodeURL;
-                            await update(ref(database, `guests/${id}`), {qrCodeURL: qrCodeDataURL});
-                            logEvent(analytics, 'user_platform',{event_category: 'engagement',event_label: 'Successful Loading of QR'});
-                            alert('Thank you for your RSVP. Your QR code is ready for download.');
-                        } catch (error) {
-                            logEvent(analytics, 'errors', {event_category: 'failure',  event_label: 'QR Code Failure'});
-                                console.error('Error uploading QR code:', error);
-                            //alert('Error uploading QR code:', error);
+                            await update(ref(database, `guests/${id}`), {}); 
+                            QrCodeValid = true;
+                            generateQRCode();
+                        } catch(error) {
+                            logEvent(analytics, 'Firebase Data - Backup Node Creation Failure', { event_category: 'failure', event_label: error });
+                            //alert("An Error has occured, please sign in")
+                            alert("An Error has occured saving your data. Please sign in with your account to try again.");
+                            clearInput();
+                            window.location.href = './pages/login.html';
                         }
-                    }, 4000); // Delay to ensure QR code generation
-                    document.getElementById('submitButtonText').innerText = 'Submit';
+                    }
+                    clearInput();  
                 } catch (error) {
                     handleAuthError(error);
-                    logEvent(analytics, 'errors', {event_category: 'failure',  event_label: 'Signup Failure', event_desc: error});
-                    //console.error('Error creating user:', error);
-                    //alert('error');
-                    //alert('Error creating user:', error);
-                    alert('Please try again later!')
+                    logEvent(analytics, 'Signup Failure', { event_category: 'failure', event_label: 'Signup Failure', event_desc: error.message });
+                    clearInput();
+                    alert(`Error creating user: ${error.message }`);
                 }
             }
         });
@@ -599,7 +627,7 @@
             }
             alert(errorMessage);
         }
-        
+
         function generateQrCode(qrContent) {
             return new QRCode('qr-code', {
                 text: qrContent,
@@ -610,7 +638,7 @@
                 correctLevel: QRCode.CorrectLevel.H,
             });
         }
-        
+
     </script>
     <!--
     <script type="module">

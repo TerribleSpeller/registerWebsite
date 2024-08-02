@@ -366,7 +366,7 @@
         };
 
         function handleSignInError(error) {
-            logEvent(analytics, 'SignIn Failure', { event_category: 'failure', event_label: 'Signup Failure', event_desc: error.message });
+            logEvent(analytics, 'SignIn Failure', { event_category: 'failure', event_label: 'Signin Failure', event_desc: error.message });
             let errorMessage;
             switch (error.code) {
                 case 'auth/invalid-email':
@@ -397,6 +397,7 @@
             const password = document.getElementById('password').value;
             signInWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
+                    logEvent(analytics, 'SignIn Success', { event_category: 'success', event_label: 'Signin Success' });
                     const adminRef = ref(database, 'admin/' + sanitizedEmail);
                     const scanRef = ref(database, 'scanner/' + sanitizedEmail);
                     const snapshot = await get(adminRef);

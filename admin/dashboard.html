@@ -97,6 +97,8 @@
         <div class="mt-3"></div>
         <h1>Dashboard</h1>
         <div class="container mb-5 ">
+
+            </div>
             <h2>Scan QR Codes</h2>
             <div class="section d-flex flex-row">
                 <div id="my-qr-reader" class="flex-fill">
@@ -132,9 +134,26 @@
         <script src="https://unpkg.com/html5-qrcode">
         </script>
         <div class="container mb-5">
+
             <h2>Guest List</h2>
-            <button id="export">Export to Excel</button>
-            <button id="edit">Edit Table</button>
+            <h3 id="guest-number"></h3>
+            <div class="d-flex flex-row">
+                <div>
+                    <button id="export">Export to Excel</button>
+                </div>
+                <div class="me-auto px-2">
+                    <button id="edit" class="">Edit Table</button>
+                </div>
+                <div>
+                    <div>
+                        <input type="text" id="searchInput" placeholder="Search for names..">
+                        <button id="searchButton">Search</button>
+                        <button id="searchButtonReset">Reser Search</button>
+
+                    </div>
+                </div>
+            </div>
+
             <div style="overflow-x:auto;">
                 <table id="data-table" class="table">
                     <thead>
@@ -363,7 +382,7 @@
                         class="et_pb_module et_pb_text et_pb_text_10_tb_footer  et_pb_text_align_center et_pb_bg_layout_light">
                         <div class="et_pb_text_inner">
                             <div id="footer-info">© 2022-2024 <a href="/http://www.sinarmasland.com/">PT Sinar Mitbana
-                                    Mas</a>.   All rights reserved.  | Version 1.1.5  | Version 1.1.5
+                                    Mas</a>.   All rights reserved.  | Version 1.1.6  
                             </div>
                         </div>
                     </div>
@@ -371,6 +390,37 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('searchButton').addEventListener('click', () => {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const table = document.getElementById('data-table');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td');
+                let found = false;
+                for (let j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        const txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toLowerCase().indexOf(searchInput) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                tr[i].style.display = found ? '' : 'none';
+            }
+        });
+
+        document.getElementById('searchButtonReset').addEventListener('click', () => {
+            const table = document.getElementById('data-table');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                tr[i].style.display = '';
+            }
+        });
+    </script>
 
     <script type="module">
         // DELETE FUNCTION
@@ -380,6 +430,7 @@
         import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
         import { getDatabase, ref, onValue, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         window.removeLine = async function (rowIdx) {
+            buttonAdder.disabled = false;
             let table = document.getElementById('data-table');
             let rows = table.rows;
             let idTest = rows[rowIdx]['cells'][0].innerText;
@@ -391,16 +442,19 @@
         buttonAdder.addEventListener('click', function (event) {
             let table = document.getElementById('data-table');
             let rows = table.rows;
+            buttonAdder.disabled = true;
             for (let i = 2; i < rows.length; i++) {
                 let cols = rows[i].cells;
                 let lastCol = rows[i]['cells'][cols.length - 1];
                 let button = document.createElement('button');
-                button.innerText = 'View';
+                button.innerText = 'Delete';
                 button.setAttribute('onclick', `window.removeLine(${i})`);   // modified
                 lastCol.appendChild(button);
             }
         });
         document.addEventListener('DOMContentLoaded', () => {
+            let totalGuests = 0;
+            let countingDone = false;
             const database = getDatabase();
             const dataTableBody = document.getElementById('data-table').querySelector('tbody');
             onAuthStateChanged(auth, async (user) => {
@@ -424,6 +478,11 @@
                                 const data = snapshot.val();
                                 dataTableBody.innerHTML = '';
                                 for (let key in data) {
+                                    if (countingDone == false) {
+                                        totalGuests += 1;
+                                        document.getElementById('guest-number').innerText = `Total Guests: ${totalGuests}`;
+                                    }
+                                  
                                     let row = data[key];
                                     dataTableBody.innerHTML += `
                                     <tr [data-id="${row.id}"]>
@@ -438,6 +497,7 @@
                                     </tr>
                                 `;
                                 }
+                                countingDone = true;
                             });
                         } else if (snapshotScan.exists()) {
                             // Handle scanner logic here

@@ -546,7 +546,7 @@
                         logEvent(analytics, 'Successful QR Code Generation', { event_category: 'engagement', event_label: 'Successful Loading of QR' });
                         alert('Thank you for your RSVP. Your QR code is ready for download.');
                     } catch (error) {
-                        logEvent(analytics, 'QR Code Generation Error', { event_category: 'failure', event_label: 'QR Code Failure' });
+                        logEvent(analytics, 'QR Code Generation Error', { event_category: 'failure', event_label: 'QR Code Failure', event_desc: error.message });
                         console.error('Error uploading QR code:', error);
                         alert("QR Code generation failed. Please sign in with your account to try again.");
                         clearInput();
@@ -584,7 +584,7 @@
                         generateQRCodeFunction();
 
                     } catch (error) {
-                        logEvent(analytics, 'Firebase Data saving Error', { event_category: 'failure', event_label: error });
+                        logEvent(analytics, 'Firebase Data saving Error', { event_category: 'failure', event_label: error, event_desc: error.message });
                         //alert("An Error has occured, please sign in")
                         clearInput();
                         window.location.href = './pages/login.html';
@@ -593,7 +593,7 @@
                             QrCodeValid = true;
                             generateQRCodeFunction(); 
                         } catch(error) {
-                            logEvent(analytics, 'Firebase Data - Backup Node Creation Failure', { event_category: 'failure', event_label: error });
+                            logEvent(analytics, 'Firebase Data - Backup Node Creation Failure', { event_category: 'failure', event_label: error, event_desc: error.message });
                             //alert("An Error has occured, please sign in")
                             alert("An Error has occured saving your data. Please sign in with your account to try again.");
                             clearInput();

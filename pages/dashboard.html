@@ -441,10 +441,13 @@
         import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
         import { getDatabase, ref, get, set, update } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         import { goOffline } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
+        import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-analytics.js';
         import { signout } from '../js/signout.js';
         const database = getDatabase();
         var userEmail;
         var userID;
+        const analytics = getAnalytics();
+
         document.addEventListener('DOMContentLoaded', () => {
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
@@ -466,9 +469,11 @@
                     if (userData.email === email) {
                         found = true;
                         displayUserData(userData);
+                        logEvent(analytics, 'Successfully found User', { event_category: 'engagement', event_label: 'User used Dashboard' });
                     }
                 });
                 if (!found) {
+                    logEvent(analytics, 'No Data User Logged into Dashboard', { event_category: 'engagement', event_label: 'User used Dashboard' });
                     document.getElementById('user-info').innerHTML = 'No data found for this user';
                     document.getElementById('email').innerHTML = `Email: ${email}`;
                     //Protocol to create new node for them. BECAUSE Goddammit the internet SUCKS.
@@ -536,7 +541,7 @@
                         console.log("User Found");
                         const updates = {};
                         if (name) updates.name = name;
-                        if (phone) updates.phone = phone;
+                        if (phone) updates.phoneno = phone;
                         if (category) updates.category = category;
                         if (company) updates.company = company;
         
@@ -544,8 +549,10 @@
                             submitButton.disabled = true;
                             submitButton.innerText = 'Submitting...';
                             await update(userRef, updates);
+                            logEvent(analytics, 'Updated User Data', { event_category: 'engagement', event_label: 'User used Dashboard' });
                         } catch (error) {
                             console.error('Error updating user data:', error);
+                            logEvent(analytics, 'Failed to Update User Data', { event_category: 'engagement', event_label: 'User used Dashboard' });
                             alert('Error updating user data: ' + error.message);
                         }
 
@@ -561,10 +568,13 @@
                     } else {
                         alert('No data found for this user');
                     }
+                    logEvent(analytics, 'Successfully found User Data ', { event_category: 'engagement', event_label: 'User used Dashboard' });
+
                 } catch (error) {
                     console.error('Error fetching user data:', error);
                     alert('Error fetching user data: ' + error.message);
                 }
+                
             } else {
                 alert('Please provide a user ID to identify the user');
             }
@@ -580,9 +590,11 @@
         import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
         import { getDatabase, ref, get, update } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         import { getDownloadURL, ref as storageRef, uploadString, uploadBytes, getStorage } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-storage.js';
+        import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-analytics.js';
         const app = initializeApp(firebaseConfig);
         const database2 = getDatabase();
         const storage = getStorage(app);
+        const analytics2 = getAnalytics();
         document.getElementById('regenButton').addEventListener('click', async () => {
             const userID2 = document.getElementById('id-placeholder').innerHTML;
             console.log(userID2);
@@ -616,8 +628,11 @@
                             const dataURL = canvas.toDataURL('image/png');
                             if (dataURL.startsWith('data:image/png')) {
                                 resolve(dataURL);
+                                logEvent(analytics2, 'Successfully generated new QR COde', { event_category: 'engagement', event_label: 'User used Dashboard' });
                             } else {
                                 reject(new Error('Failed to generate QR code as image'));
+                                logEvent(analytics2, 'Failed to regenerate new QR Code', { event_category: 'engagement', event_label: 'User used Dashboard' });
+
                             }
                         } else {
                             reject(new Error('Failed to generate QR code'));
@@ -631,8 +646,11 @@
                     QRCode.toDataURL(qrContent, { width: 256, height: 256 }, (error, url) => {
                         if (error) {
                             reject(new Error('Fallback QR code generation failed: ' + error.message));
+                            logEvent(analytics2, 'Failed to generate backup QR Codeer', { event_category: 'engagement', event_label: 'User used Dashboard' });
                             alert('Fallback Error generating QR code: ' + error.message);
                         } else {
+                            logEvent(analytics2, 'Successfully generated backup QR Code', { event_category: 'engagement', event_label: 'User used Dashboard' });
+
                             resolve(url);
                         }
                     });
@@ -650,6 +668,7 @@
                 qrCodeImgElement.src = qrCodeDataURL;
                 qrCodeImgElement.style.display = 'block';
                 console.log('QR code URL updated successfully');
+                logEvent(analytics2, 'QR Code URL updated', { event_category: 'engagement', event_label: 'User used Dashboard' });
             } catch (error) {
                 console.error('Error generating or uploading QR code:', error);
                 alert('Error generating or uploading QR code: ' + error.message);

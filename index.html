@@ -601,6 +601,7 @@
                             await update(ref(database, `guests/${id}`), {}); 
                             QrCodeValid = true;
                             generateQRCodeFunction(); 
+                            logEvent(analytics, 'Firebase Data - Backup Node Creation Success', { event_category: 'successs', event_label: error, event_desc: error.message });
                         } catch(error) {
                             logEvent(analytics, 'Firebase Data - Backup Node Creation Failure', { event_category: 'failure', event_label: error, event_desc: error.message });
                             //alert("An Error has occured, please sign in")

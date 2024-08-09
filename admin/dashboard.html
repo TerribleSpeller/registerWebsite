@@ -28,6 +28,7 @@
             width: 100%;
             border-collapse: collapse;
         }
+
         th,
         td {
             border: 1px solid black;
@@ -38,6 +39,7 @@
     <script type="module">
     </script>
 </head>
+
 <body>
     <div class="container">
         <div id="Header" class="mb-5">
@@ -98,81 +100,82 @@
         <h1>Dashboard</h1>
         <div class="container mb-5 ">
 
+        </div>
+        <h2>Scan QR Codes</h2>
+        <div class="section d-flex flex-row">
+            <div id="my-qr-reader" class="flex-fill">
             </div>
-            <h2>Scan QR Codes</h2>
-            <div class="section d-flex flex-row">
-                <div id="my-qr-reader" class="flex-fill">
-                </div>
-                <div class="flex-fill border">
+            <div class="flex-fill border">
+                <div class="p-2">
                     <div class="p-2">
-                        <div class="p-2">
-                            <span>User ID: </span><span id="id"></span>
-                        </div>
-                        <div class="p-2">
-                            <span>Name: </span><span id="got-name"></span>
-                        </div>
-                        <div class="p-2">
-                            <span>Email: </span><span id="got-email"></span>
-                        </div>
-                        <div class="p-2">
-                            <span>Phone Number: </span><span id="got-no"></span>
-                        </div>
-                        <div class="p-2">
-                            <span>Category: </span><span id="got-category"></span>
-                        </div>
-                        <div class="p-2">
-                            <span>Company: </span><span id="got-company"></span>
-                        </div>
-                        <div class="p-2">
-                            <span id="got-result"></span>
-                        </div>
+                        <span>User ID: </span><span id="id"></span>
+                    </div>
+                    <div class="p-2">
+                        <span>Name: </span><span id="got-name"></span>
+                    </div>
+                    <div class="p-2">
+                        <span>Email: </span><span id="got-email"></span>
+                    </div>
+                    <div class="p-2">
+                        <span>Phone Number: </span><span id="got-no"></span>
+                    </div>
+                    <div class="p-2">
+                        <span>Category: </span><span id="got-category"></span>
+                    </div>
+                    <div class="p-2">
+                        <span>Company: </span><span id="got-company"></span>
+                    </div>
+                    <div class="p-2">
+                        <span id="got-result"></span>
                     </div>
                 </div>
             </div>
         </div>
-        <!--The QR Code Scripts-->
-        <script src="https://unpkg.com/html5-qrcode">
-        </script>
-        <div class="container mb-5">
+    </div>
+    <!--The QR Code Scripts-->
+    <script src="https://unpkg.com/html5-qrcode">
+    </script>
+    <div class="container mb-5">
 
-            <h2>Guest List</h2>
-            <h3 id="guest-number"></h3>
-            <div class="d-flex flex-row">
-                <div>
-                    <button id="export">Export to Excel</button>
-                </div>
-                <div class="me-auto px-2">
-                    <button id="edit" class="">Edit Table</button>
-                </div>
-                <div>
-                    <div>
-                        <input type="text" id="searchInput" placeholder="Search for names..">
-                        <button id="searchButton">Search</button>
-                        <button id="searchButtonReset">Reser Search</button>
-
-                    </div>
-                </div>
+        <h2>Guest List</h2>
+        <h3 id="guest-number"></h3>
+        <h3 id="attending-number"></h3>
+        <div class="d-flex flex-row">
+            <div>
+                <button id="export">Export to Excel</button>
             </div>
+            <div class="me-auto px-2">
+                <button id="edit" class="">Edit Table</button>
+            </div>
+            <div>
+                <div>
+                    <input type="text" id="searchInput" placeholder="Search for names..">
+                    <button id="searchButton">Search</button>
+                    <button id="searchButtonReset">Reser Search</button>
 
-            <div style="overflow-x:auto;">
-                <table id="data-table" class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Company</th>
-                            <th>Email</th>
-                            <th>Phone Number</th>
-                            <th>Attending</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                </div>
             </div>
         </div>
+
+        <div style="overflow-x:auto;">
+            <table id="data-table" class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Company</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Attending</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
     </div>
     <div id="footer" class="et_builder_inner_content et_pb_gutters3">
         <div class="et_pb_section et_pb_section_0_tb_footer et_pb_with_background et_section_regular">
@@ -382,7 +385,7 @@
                         class="et_pb_module et_pb_text et_pb_text_10_tb_footer  et_pb_text_align_center et_pb_bg_layout_light">
                         <div class="et_pb_text_inner">
                             <div id="footer-info">© 2022-2024 <a href="/http://www.sinarmasland.com/">PT Sinar Mitbana
-                                    Mas</a>.   All rights reserved.  | Version 1.1.7.1  
+                                    Mas</a>. All rights reserved. | Version 1.1.7.1
                             </div>
                         </div>
                     </div>
@@ -454,6 +457,7 @@
         });
         document.addEventListener('DOMContentLoaded', () => {
             let totalGuests = 0;
+            let attendingGuests = 0;
             let countingDone = false;
             const database = getDatabase();
             const dataTableBody = document.getElementById('data-table').querySelector('tbody');
@@ -481,8 +485,9 @@
                                     if (countingDone == false) {
                                         totalGuests += 1;
                                         document.getElementById('guest-number').innerText = `Total Guests: ${totalGuests}`;
+
                                     }
-                                  
+
                                     let row = data[key];
                                     dataTableBody.innerHTML += `
                                     <tr [data-id="${row.id}"]>
@@ -496,7 +501,12 @@
                                         <td></td>
                                     </tr>
                                 `;
+                                    if (row.attending) {
+                                        attendingGuests += 1;
+                                        document.getElementById('attending-number').innerText = `Attending Guests: ${attendingGuests}`;
+                                    }
                                 }
+
                                 countingDone = true;
                             });
                         } else if (snapshotScan.exists()) {

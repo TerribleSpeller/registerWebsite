@@ -619,7 +619,11 @@
                             dataTableBody.appendChild(newRow);
                         }
                     }
+                    off(dataRef, 'value', listener);
+
                 });
+                onValue(dataRef, listener);
+
             }
             let htmlscanner = new Html5QrcodeScanner(
                 "my-qr-reader",

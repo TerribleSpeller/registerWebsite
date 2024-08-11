@@ -596,13 +596,19 @@
                     document.getElementById('got-no').innerText = readData.phoneno;
                     document.getElementById('got-category').innerText = readData.category;
                     document.getElementById('got-company').innerText = readData.company;
-                    readData.attending = true;
-                    set(ref(database, 'guests/' + document.getElementById('id').innerText), readData);
+
                     if (document.getElementById('got-result').innerText == 'Scanned Successfully!') {
                         document.getElementById('got-result').innerText = 'Already scanned!';
                     } else {
                         document.getElementById('got-result').innerText = 'Scanned Successfully!';
-                        alert("Marked as attending!");
+                        
+                        if (readData.attending) {
+                            alert("Marked as attending!");
+                            readData.attending = true;
+                            set(ref(database, 'guests/' + document.getElementById('id').innerText), readData);
+                        } else {
+                            //No alerts here.
+                        }
                         if (scanner) {
                             const dataTableBody = document.getElementById('data-table').querySelector('tbody');
                             const existingRow = dataTableBody.querySelector(`tr[data-id="${decodeText}"]`);

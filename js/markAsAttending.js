@@ -11,7 +11,7 @@ const database2 = getDatabase(app2);
 async function markAsAttending(idTest) {
   try {
     const guestRef = ref(database2, 'guests/' + idTest);
-    await set(ref(guestRef, 'attending'), true);
+    await update(guestRef, { attending: true });
     console.log('Guest marked as attending successfully');
   } catch (error) {
     console.error('Error attending guest:', error);

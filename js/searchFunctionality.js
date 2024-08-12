@@ -17,6 +17,8 @@ document.getElementById('searchButton').addEventListener('click', () => {
 
     //currentPage = 1;
     renderTable(1, filteredData);
+    const filteredDataLength = Object.keys(filteredData).length;
+    document.getElementById('page-info').innerText = `Page ${1} ouf of ${Math.ceil(filteredDataLength / rowsPerPage)}`;
 });
 
 document.getElementById('searchButtonReset').addEventListener('click', () => {

@@ -397,7 +397,9 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="module" src="../js/renderTable.js"></script>
+    <script type="module" src="../js/searchFunctionality.js"></script>
+    <!-- <script>
         document.getElementById('searchButton').addEventListener('click', () => {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
             const table = document.getElementById('data-table');
@@ -428,7 +430,7 @@
             }
         });
     </script>
-
+    -->
     <script type="module">
         let data = {}; // Data from database
         let currentPage = 1;
@@ -474,7 +476,9 @@
                 lastCol.appendChild(button2);
             }
         });
-
+    </script>
+    <!--
+    <script>
         //Rendering
 
         //THE BASIC FUNCTION
@@ -500,16 +504,6 @@
                     <td></td>
                 `;
                 const lastCol = tr.lastElementChild;
-                /*
-                const button = document.createElement('button');
-                button.innerText = 'Delete';
-                button.setAttribute('onclick', `window.removeLine(${key})`);
-                lastCol.appendChild(button);
-                const button2 = document.createElement('button');
-                button2.innerText = 'Mark As Attending';
-                button2.setAttribute('onclick', `window.markAsAttendingFunction(${key})`);
-                lastCol.appendChild(button2);
-                */
                 dataTableBody.appendChild(tr);
                 
             }
@@ -607,7 +601,7 @@
                 }
             });
         });
-    </script>
+    </script> -->
     <script type="module">
         import { getDatabase, ref, onValue, set, get, query, orderByChild, equalTo } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         import { auth } from '../js/firebase-config.js'; //REMEMEBR 

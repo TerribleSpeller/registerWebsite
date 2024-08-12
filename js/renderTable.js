@@ -45,6 +45,7 @@ function updateGuestCounts() {
     attendingGuests = Object.values(data).filter(row => row.attending).length;
     document.getElementById('guest-number').innerText = `Total Guests: ${totalGuests}`;
     document.getElementById('attending-number').innerText = `Attending Guests: ${attendingGuests}`;
+    document.getElementById('attending-percentage').innerText = `Percentage: ${attendingGuests/totalGuests}%`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {

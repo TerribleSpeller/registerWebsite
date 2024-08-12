@@ -609,7 +609,7 @@
         });
     </script>
     <script type="module">
-        import { getDatabase, ref, onValue, set, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
+        import { getDatabase, ref, onValue, set, get, query, orderByChild, equalTo } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
         import { auth } from '../js/firebase-config.js'; //REMEMEBR 
         function domReady(fn) {
             if (
@@ -624,8 +624,38 @@
         const sanitizeEmail = (email) => {
             return email.replace(/\.com$/, ''); // Remove ".com" from the end
         };
-        domReady(function () {
+        domReady(async function () {
             const database = getDatabase();
+            //Already known data
+            async function loadAttendingData() {
+                const attendingQuery = query(ref(database, 'guests'), orderByChild('attending'), equalTo(true));
+                const snapshot = await get(attendingQuery);
+                if (snapshot.exists()) {
+                    const dataTableBody = document.getElementById('data-table').querySelector('tbody');
+                    snapshot.forEach(childSnapshot => {
+                        const data = childSnapshot.val();
+                        const newRow = document.createElement('tr');
+                        newRow.setAttribute('data-id', childSnapshot.key);
+                        newRow.innerHTML = `
+                            <td>${childSnapshot.key}</td>
+                            <td>${data.name}</td>
+                            <td>${data.category}</td>
+                            <td>${data.company}</td>
+                            <td>${data.email}</td>
+                            <td>${data.phoneno}</td>
+                            <td>Yes</td>
+                            <td></td>
+                        `;
+                        dataTableBody.appendChild(newRow);
+                    });
+                }
+            }
+    
+            // Load attending data before setting up the QR code scanner
+            await loadAttendingData();
+
+
+            //Scanning
             async function onScanSuccess(decodeText, decodeResult) {
                 const email = auth.currentUser.email;
                 const sanitizedEmail = sanitizeEmail(email);

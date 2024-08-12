@@ -646,9 +646,7 @@
                         dataTableBody.appendChild(newRow);
                 
                     });
-                    const attendingCount = Array.from(dataTableBody.querySelectorAll('tr'))
-                        .filter(row => row.cells[6] && row.cells[6].innerText === 'Yes').length;        
-                    document.getElementById('attending-number').innerText = `Attending Guests: ${attendingCount}`;
+
 
 
 

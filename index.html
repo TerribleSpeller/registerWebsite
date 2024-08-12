@@ -565,7 +565,7 @@
             }
 
             const isUsedEmail = await findGuestByEmail(email);
-            const isUsedPhone = await findGuestByPhone(phone);
+            //const isUsedPhone = await findGuestByPhone(phone);
 
             if (isUsedEmail) {
                 alert(isUsedEmail ? 'Email already exists. Please use a different one.' : 'Phone number already exists. Please use a different one.');

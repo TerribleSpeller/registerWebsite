@@ -149,9 +149,13 @@
             </div>
             <div>
                 <div>
+                    <button id="prev-page">Previous</button>
+                    <span id="page-info"></span>
+
+                    <button id="next-page">Next</button>
                     <input type="text" id="searchInput" placeholder="Search for names..">
                     <button id="searchButton">Search</button>
-                    <button id="searchButtonReset">Reser Search</button>
+                    <button id="searchButtonReset">Reset Search</button>
 
                 </div>
             </div>
@@ -426,12 +430,20 @@
     </script>
 
     <script type="module">
+        let data = {}; // Data from database
+        let currentPage = 1;
+        const rowsPerPage = 500;
+        let totalGuests = 0;
+        let attendingGuests = 0;
+        let countingDone = false;
+
         // DELETE FUNCTION
         import { removeGuest } from '../js/deleteRow.js';
         import { signout } from '../js/signout.js';
         import { auth } from '../js/firebase-config.js'; //REMEMEBR TO DIRECT IT PROPERLY!
         import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
         import { getDatabase, ref, onValue, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
+        import { markAsAttending } from '../js/markAsAttending.js';
         window.removeLine = async function (rowIdx) {
             buttonAdder.disabled = false;
             let table = document.getElementById('data-table');
@@ -441,6 +453,9 @@
                 removeGuest(idTest)
             }
         }
+        window.markAsAttendingFunction = async function (ID) {
+            markAsAttending(ID)
+        } 
         let buttonAdder = document.getElementById('edit');
         buttonAdder.addEventListener('click', function (event) {
             let table = document.getElementById('data-table');
@@ -453,12 +468,64 @@
                 button.innerText = 'Delete';
                 button.setAttribute('onclick', `window.removeLine(${i})`);   // modified
                 lastCol.appendChild(button);
+                let button2 = document.createElement('button');
+                button2.innerText = 'Mark As Attending';
+                button2.setAttribute('onclick', `window.markAsAttendingFunction(${i})`);   // does it work???
+                lastCol.appendChild(button2);
             }
         });
+
+        //Rendering
+
+        //THE BASIC FUNCTION
+        function renderTable(page) {
+            const dataTableBody = document.getElementById('data-table').querySelector('tbody');
+            dataTableBody.innerHTML = '';
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const keys = Object.keys(data).slice(start, end);
+
+            for (let key of keys) {
+                let row = data[key];
+                const tr = document.createElement('tr');
+                tr.setAttribute('data-id', row.id);
+                tr.innerHTML = `
+                    <td>${row.id}</td>
+                    <td>${row.name}</td>
+                    <td>${row.category}</td>
+                    <td>${row.company}</td>
+                    <td>${row.email}</td>
+                    <td>${row.phoneno}</td>
+                    <td>${row.attending ? 'Yes' : 'No'}</td>
+                    <td></td>
+                `;
+                const lastCol = tr.lastElementChild;
+                /*
+                const button = document.createElement('button');
+                button.innerText = 'Delete';
+                button.setAttribute('onclick', `window.removeLine(${key})`);
+                lastCol.appendChild(button);
+                const button2 = document.createElement('button');
+                button2.innerText = 'Mark As Attending';
+                button2.setAttribute('onclick', `window.markAsAttendingFunction(${key})`);
+                lastCol.appendChild(button2);
+                */
+                dataTableBody.appendChild(tr);
+                
+            }
+
+            document.getElementById('page-info').innerText = `Page ${currentPage}`;
+        }
+
+        function updateGuestCounts() {
+            totalGuests = Object.keys(data).length;
+            attendingGuests = Object.values(data).filter(row => row.attending).length;
+            document.getElementById('guest-number').innerText = `Total Guests: ${totalGuests}`;
+            document.getElementById('attending-number').innerText = `Attending Guests: ${attendingGuests}`;
+        }
+        //THe Basics
         document.addEventListener('DOMContentLoaded', () => {
-            let totalGuests = 0;
-            let attendingGuests = 0;
-            let countingDone = false;
+
             const database = getDatabase();
             const dataTableBody = document.getElementById('data-table').querySelector('tbody');
             onAuthStateChanged(auth, async (user) => {
@@ -479,35 +546,9 @@
                         if (snapshot.exists()) {
                             const dataRef = ref(database, 'guests');
                             onValue(dataRef, (snapshot) => {
-                                const data = snapshot.val();
-                                dataTableBody.innerHTML = '';
-                                for (let key in data) {
-                                    if (countingDone == false) {
-                                        totalGuests += 1;
-                                        document.getElementById('guest-number').innerText = `Total Guests: ${totalGuests}`;
-
-                                    }
-
-                                    let row = data[key];
-                                    dataTableBody.innerHTML += `
-                                    <tr [data-id="${row.id}"]>
-                                        <td>${row.id}</td>
-                                        <td>${row.name}</td>
-                                        <td>${row.category}</td>
-                                        <td>${row.company}</td>
-                                        <td>${row.email}</td>
-                                        <td>${row.phoneno}</td>
-                                        <td>${row.attending ? 'Yes' : 'No'}</td>
-                                        <td></td>
-                                    </tr>
-                                `;
-                                    if (row.attending) {
-                                        attendingGuests += 1;
-                                        document.getElementById('attending-number').innerText = `Attending Guests: ${attendingGuests}`;
-                                    }
-                                }
-
-                                countingDone = true;
+                                data = snapshot.val();
+                                updateGuestCounts();
+                                renderTable(currentPage);
                             });
                         } else if (snapshotScan.exists()) {
                             // Handle scanner logic here
@@ -551,6 +592,20 @@
                     downloadLink.click();
                 }
             }
+
+                        document.getElementById('prev-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable(currentPage);
+                }
+            });
+
+            document.getElementById('next-page').addEventListener('click', () => {
+                if (currentPage * rowsPerPage < totalGuests) {
+                    currentPage++;
+                    renderTable(currentPage);
+                }
+            });
         });
     </script>
     <script type="module">

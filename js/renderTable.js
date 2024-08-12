@@ -37,7 +37,7 @@ export function renderTable(page, dataToRender = data) {
         dataTableBody.appendChild(tr);
     }
 
-    document.getElementById('page-info').innerText = `Page ${currentPage}`;
+    document.getElementById('page-info').innerText = `Page ${currentPage} ouf of ${Math.ceil(totalGuests / rowsPerPage)}`;
 }
 
 function updateGuestCounts() {

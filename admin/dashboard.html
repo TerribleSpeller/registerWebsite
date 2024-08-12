@@ -624,11 +624,15 @@
                         `;
                             dataTableBody.appendChild(newRow);
                         }
+
+                        htmlscanner.clear().then(() => {
+                            console.log("QR Code scanner stopped.");
+                        }).catch((error) => {
+                            console.error("Failed to stop QR Code scanner: ", error);
+                        });
                     }
-                    off(dataRef, 'value', listener);
 
                 });
-                onValue(dataRef, listener);
 
             }
             let htmlscanner = new Html5QrcodeScanner(

@@ -25,6 +25,15 @@
 </header>
 
 <body>
+    <div id="EventFinishedOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.8); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+        <div class="finished-content" style="text-align: center; color: black;">
+            <h1>The Grand Product Knowledge Event has Finished</h1>
+            <span style="font-size:20px">Thank you for your participation in</span><br/>
+            <span style="color: #eed1a9; font-size:18px"><i>Wynyard, way to your heart</i></span>
+
+        </div>
+    </div>
+
     <div id="Header">
         <div class="navbar-wrapper ">
             <div class="navbar-local navbar navbar-expand-lg light is-scrolled">
@@ -180,7 +189,7 @@
                                         <div class="ant-col ant-col-lg-24"
                                             style="padding-left: 7.5px; padding-right: 7.5px;"><button
                                                 class="login-form-button ant-btn ant-btn-link" id="submitButton" type="submit"><span
-                                                    id="submitButtonText">Submit</span></button>
+                                                    id="submitButtonText" disabled>Submit</span></button> <!--Disabled because even tis over-->
                                         </div>
                                     </div>
                                 </form>

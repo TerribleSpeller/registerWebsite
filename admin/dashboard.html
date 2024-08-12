@@ -458,7 +458,10 @@
             }
         }
         window.markAsAttendingFunction = async function (ID) {
-            markAsAttending(ID)
+            let table = document.getElementById('data-table');
+            let rows = table.rows;
+            let idToUpdate = rows[ID]['cells'][0].innerText;
+            markAsAttending(idToUpdate)
         } 
         let buttonAdder = document.getElementById('edit');
         buttonAdder.addEventListener('click', function (event) {

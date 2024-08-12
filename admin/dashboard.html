@@ -711,6 +711,7 @@
                         }).catch((error) => {
                             console.error("Failed to stop QR Code scanner: ", error);
                         });
+                        htmlscanner.render(onScanSuccess);
                     }
 
                 });

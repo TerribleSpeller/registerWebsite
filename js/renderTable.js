@@ -6,7 +6,7 @@ import { signout } from '../js/signout.js';
 
 export let data = {};
 export const rowsPerPage = 250;
-let currentPage = 1;
+export let currentPage = 1;
 let totalGuests = 0;
 let attendingGuests = 0;
 let filteredData = {};
@@ -131,4 +131,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-export { currentPage };

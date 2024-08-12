@@ -16,11 +16,11 @@ document.getElementById('searchButton').addEventListener('click', () => {
     }, {});
 
     //currentPage = 1;
-    renderTable(currentPage, filteredData);
+    renderTable(1, filteredData);
 });
 
 document.getElementById('searchButtonReset').addEventListener('click', () => {
     filteredData = {};
     //currentPage = 1;
-    renderTable(currentPage);
+    renderTable(1);
 });

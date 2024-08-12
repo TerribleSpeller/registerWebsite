@@ -99,14 +99,78 @@ document.addEventListener('DOMContentLoaded', () => {
         exportTableToExcel('data-table', 'guests_data');
     });
 
-    function exportTableToExcel(tableID, filename = '') {
+    // function exportTableToExcel(tableID, filename = '') {
+    //     let downloadLink;
+    //     let dataType = 'application/vnd.ms-excel';
+    //     let tableSelect = document.getElementById(tableID);
+    //     let tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    //     filename = filename ? filename + '.xls' : 'excel_data.xls';
+    //     downloadLink = document.createElement("a");
+    //     document.body.appendChild(downloadLink);
+    //     if (navigator.msSaveOrOpenBlob) {
+    //         let blob = new Blob(['\ufeff', tableHTML], {
+    //             type: dataType
+    //         });
+    //         navigator.msSaveOrOpenBlob(blob, filename);
+    //     } else {
+    //         downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    //         downloadLink.download = filename;
+    //         downloadLink.click();
+    //     }
+    // }
+
+    document.getElementById('export').addEventListener('click', () => {
+        exportTableToExcel(data, 'guests_data');
+    });
+
+    ///Thank God FOR CHATGPT FOR THIS
+    
+    function createTableFromData(data) {
+        let table = document.createElement('table');
+        let thead = document.createElement('thead');
+        let tbody = document.createElement('tbody');
+    
+        // Define the order of headers
+        let headers = ['id', 'name', 'category', 'company', 'email', 'phoneno', 'attending'];
+        let headerRow = document.createElement('tr');
+        headers.forEach(header => {
+            let th = document.createElement('th');
+            th.innerText = header;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+    
+        // Create table rows
+        Object.values(data).forEach(rowData => {
+            let row = document.createElement('tr');
+            headers.forEach(header => {
+                let td = document.createElement('td');
+                td.innerText = rowData[header];
+                row.appendChild(td);
+            });
+            tbody.appendChild(row);
+        });
+    
+        table.appendChild(thead);
+        table.appendChild(tbody);
+        return table;
+    }
+    
+    function exportTableToExcel(data, filename = '') {
         let downloadLink;
         let dataType = 'application/vnd.ms-excel';
-        let tableSelect = document.getElementById(tableID);
-        let tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+        // Create a table from the data
+        let table = createTableFromData(data);
+        let tableHTML = table.outerHTML.replace(/ /g, '%20');
+    
+        // Encode special characters
+        tableHTML = tableHTML.replace(/#/g, '%23').replace(/&/g, '%26');
+    
         filename = filename ? filename + '.xls' : 'excel_data.xls';
         downloadLink = document.createElement("a");
         document.body.appendChild(downloadLink);
+    
         if (navigator.msSaveOrOpenBlob) {
             let blob = new Blob(['\ufeff', tableHTML], {
                 type: dataType
@@ -117,6 +181,9 @@ document.addEventListener('DOMContentLoaded', () => {
             downloadLink.download = filename;
             downloadLink.click();
         }
+    
+        // Clean up
+        document.body.removeChild(downloadLink);
     }
 
     document.getElementById('prev-page').addEventListener('click', () => {

@@ -643,7 +643,12 @@
                             <td></td>
                         `;
                         dataTableBody.appendChild(newRow);
+                        const attendingCount = dataTableBody.querySelectorAll('tr').length;
+                        document.getElementById('attending-number').innerText = `Attending Guests: ${attendingCount}`;
+                
                     });
+
+
                 }
             }
     
@@ -705,6 +710,10 @@
                         `;
                             dataTableBody.appendChild(newRow);
                         }
+                        const attendingCount = dataTableBody.querySelectorAll('tr').length;
+
+                        document.getElementById('attending-number').innerText = `Attending Guests: ${attendingCount}`;
+
 
                         htmlscanner.clear().then(() => {
                             console.log("QR Code scanner stopped.");
@@ -722,6 +731,7 @@
                 { fps: 10, qrbos: 250 }
             );
             htmlscanner.render(onScanSuccess);
+
         });
     </script>
 </body>

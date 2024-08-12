@@ -643,10 +643,12 @@
                             <td></td>
                         `;
                         dataTableBody.appendChild(newRow);
-                        const attendingCount = dataTableBody.querySelectorAll('tr').length;
-                        document.getElementById('attending-number').innerText = `Attending Guests: ${attendingCount}`;
                 
                     });
+                    const attendingCount = Array.from(dataTableBody.querySelectorAll('tr'))
+                        .filter(row => row.cells[6] && row.cells[6].innerText === 'Yes').length;        
+                    document.getElementById('attending-number').innerText = `Attending Guests: ${attendingCount}`;
+
 
 
                 }

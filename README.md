@@ -15,7 +15,7 @@ Was provided to guests using the redirect of https://tinyurl.com/agentpkregistra
 
 ### Development
 
-Created using Firebase Authentication, Firebase Realtime Database, and Firebase Storage. Maintained with Firebase Analystics. Hosted on [Vercel](https://wynyard-pk-registration.vercel.app/). QR Code Scanning based using [Html5-QRCode](https://www.npmjs.com/package/html5-qrcode)
+Created using Firebase Authentication, Firebase Realtime Database, and Firebase Storage. Maintained with Firebase Analystics. Hosted on [Vercel](https://wynyard-pk-registration.vercel.app/). QR Code Scanning used [Html5-QRCode](https://www.npmjs.com/package/html5-qrcode)
 
 Designed and created over the course of two weeks. 
 

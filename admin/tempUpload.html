@@ -5,27 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Firebase Data Upload</title>
   <script type="module">
-    // Initialize Firebase
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js';
     import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
 
-    // Your web app's Firebase configuration
     const firebaseConfig = {
-        apiKey: "AIzaSyAGAE_ojAoeH7oWvcYOQgXm9ZAqck1EeTU",
-        authDomain: "register-web-4a5f8.firebaseapp.com",
-        databaseURL: "https://register-web-4a5f8-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "register-web-4a5f8",
-        storageBucket: "register-web-4a5f8.appspot.com",
-        messagingSenderId: "911239776802",
-        appId: "1:911239776802:web:5ef911f6dd2c27ae4b187b",
-        measurementId: "G-GMZ0ZP1DHQ"
+        apiKey: "REDACTED",
+        authDomain: "REDACTED",
+        databaseURL: "REDACTED",
+        projectId: "REDACTED",
+        storageBucket: "REDACTED",
+        messagingSenderId: "REDACTED",
+        appId: "REDACTED",
+        measurementId: "REDACTED"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    // Function to upload data
     function uploadData(row) {
       const data = {
         id: row.id,
@@ -37,14 +33,11 @@
         attending: row.attending
       };
 
-      // Reference to the database path where data will be stored
       const dataRef = ref(database, 'guests/' + row.id);
 
-      // Upload data
       set(dataRef, data)
         .then(() => {
           console.log('Data uploaded successfully');
-          // Clear input fields
           document.getElementById('dataForm').reset();
         })
         .catch((error) => {
@@ -52,7 +45,6 @@
         });
     }
 
-    // Event listener for form submission
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('dataForm').addEventListener('submit', (e) => {
         e.preventDefault();

@@ -1,4 +1,3 @@
-// searchFunctionality.js
 import { data, renderTable, rowsPerPage, currentPage } from './renderTable.js';
 
 let filteredData = {};

@@ -1,4 +1,3 @@
-// renderTable.js
 import { getDatabase, ref, onValue, get } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js';
 import { auth } from '../js/firebase-config.js';
 import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js';
@@ -122,15 +121,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('export').addEventListener('click', () => {
         exportTableToExcel(data, 'guests_data');
     });
-
-    ///Thank God FOR CHATGPT FOR THIS
     
     function createTableFromData(data) {
         let table = document.createElement('table');
         let thead = document.createElement('thead');
         let tbody = document.createElement('tbody');
-    
-        // Define the order of headers
         let headers = ['id', 'name', 'category', 'company', 'email', 'phoneno', 'attending'];
         let headerRow = document.createElement('tr');
         headers.forEach(header => {
@@ -160,7 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let downloadLink;
         let dataType = 'application/vnd.ms-excel';
     
-        // Create a table from the data
         let table = createTableFromData(data);
         let tableHTML = table.outerHTML.replace(/ /g, '%20');
     
@@ -182,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
             downloadLink.click();
         }
     
-        // Clean up
         document.body.removeChild(downloadLink);
     }
 
